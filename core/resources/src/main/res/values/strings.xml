@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">NASAexplorerApp</string>
+    <string name="Nasa_explorer">NASA EXPLORER</string>
+    <string name="Title">Title</string>
+    <string name="History">History</string>
+    <string name="Home">Home</string>
+    <string name="Favorite">Favorite</string>
+    <string name="Launches">Launches</string>
+    <string name="Ships">Ships</string>
+    <string name="Starlinks">Starlinks</string>
+    <string name="Dragons">Dragons</string>
+    <string name="Rocket">Rockets</string>
+    <string name="Explore">Explore</string>
+    <string name="SpaceX">More about SpaceX</string>
+    <string name="Website_">Website :</string>
+    <string name="Website">Website</string>
+    <string name="Twitter_">Twitter :</string>
+    <string name="Twitter">Twitter</string>
+
+
+</resources>
