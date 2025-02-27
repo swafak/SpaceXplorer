@@ -5,23 +5,19 @@
     android:id="@+id/navigation_main"
     app:startDestination="@id/splash">
 
-   <include
-        app:graph="@navigation/navigation_home"/>
+    <include app:graph="@navigation/navigation_home" />
 
     <fragment
         android:id="@+id/splash"
         android:name="com.example.spacexplorer.splash.SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
-            app:destination="@id/navigation_home"
             android:id="@+id/action_to_feature"
-            />
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_to_home"
+            app:destination="@id/home" />
     </fragment>
-
-    <fragment
-        android:name="com.example.spacexplorer.test.testFragment"
-        android:id="@+id/test"
-        tools:layout="@layout/fragment_test"/>
 
 
 </navigation>

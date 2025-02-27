@@ -7,7 +7,7 @@
     android:title="@string/Dragons"
     />
     <item
-        android:id="@+id/Rocket"
+        android:id="@+id/navigation_rocket"
         android:title="@string/Rocket"
         android:icon="@drawable/baseline_rocket_24"/>
     <item

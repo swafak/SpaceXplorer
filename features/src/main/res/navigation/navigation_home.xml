@@ -6,17 +6,14 @@
     app:startDestination="@id/navigation_explore">
 
     <fragment
-        android:name="com.example.features.home.HomeFragment"
-        tools:layout="@layout/fragment_home"
-        android:id="@+id/home"/>
-
-    <fragment
         android:name="com.example.features.rockets.RocketFragment"
         tools:layout="@layout/fragment_rocket"
+        android:label="Rockets"
         android:id="@+id/navigation_rocket"/>
 
     <fragment
         android:id="@+id/navigation_explore"
+        android:label="Explore"
         tools:layout="@layout/fragment_explore"
         android:name="com.example.features.explore.ExploreFragment"/>
 

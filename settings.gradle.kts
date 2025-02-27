@@ -21,7 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "SpaceXplorer"
 include(":app")
-include(":core")
+//include(":core")
 include(":features")
 include(":settings")
 include(":core:network")
