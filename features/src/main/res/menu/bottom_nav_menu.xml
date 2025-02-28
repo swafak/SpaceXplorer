@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 <item
-    android:id="@+id/settings"
+    android:id="@+id/navigation_dragons"
     android:icon="@drawable/baseline_rocket_24"
     android:title="@string/Dragons"
     />
     <item
         android:id="@+id/navigation_rocket"
-        android:title="@string/Rocket"
+        android:title="@string/Rockets"
         android:icon="@drawable/baseline_rocket_24"/>
     <item
         android:id="@+id/navigation_explore"
@@ -16,13 +16,13 @@
         android:icon="@drawable/baseline_rocket_24"/>
 
     <item
-        android:id="@+id/ships"
+        android:id="@+id/navigation_ships"
         android:title="@string/Ships"
         android:icon="@drawable/baseline_rocket_24"/>
     <item
-        android:id="@+id/favorite"
+        android:id="@+id/navigation_favorites"
         android:icon="@drawable/baseline_rocket_24"
-        android:title="@string/Favorite"
+        android:title="@string/Favorites"
       />
 
 

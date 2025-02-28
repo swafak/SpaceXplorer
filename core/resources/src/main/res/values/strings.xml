@@ -4,18 +4,31 @@
     <string name="Title">Title</string>
     <string name="History">History</string>
     <string name="Home">Home</string>
-    <string name="Favorite">Favorite</string>
+    <string name="Favorites">Favorite</string>
     <string name="Launches">Launches</string>
     <string name="Ships">Ships</string>
     <string name="Starlinks">Starlinks</string>
     <string name="Dragons">Dragons</string>
-    <string name="Rocket">Rockets</string>
+    <string name="Rockets">Rockets</string>
     <string name="Explore">Explore</string>
     <string name="SpaceX">More about SpaceX</string>
-    <string name="Website_">Website :</string>
+    <string name="Website_">Website : </string>
     <string name="Website">Website</string>
-    <string name="Twitter_">Twitter :</string>
+    <string name="Twitter_">Twitter : </string>
     <string name="Twitter">Twitter</string>
+    <string name="Summary_">Summary : </string>
+    <string name="Summary">Summary</string>
+    <string name="flickr_">flickr : </string>
+    <string name="flickr">flickr</string>
+    <string name="address">Address</string>
+    <string name="address_">Address : </string>
+    <string name="headquarters">Headquarter Address</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="city_">City : </string>
+    <string name="state_">State : </string>
+
+
 
 
 </resources>

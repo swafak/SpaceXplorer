@@ -61,4 +61,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(project(path = ":core:resources"))
     implementation(project(path = ":features"))
+    implementation(project(path = ":core:network"))
+
 }

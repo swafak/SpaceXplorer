@@ -1,8 +1,11 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
 }
-
+apply {
+    from("${rootDir}/shared.gradle")
+}
 android {
     namespace = "com.example.network"
     compileSdk = 35
@@ -40,4 +43,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.retrofit)
+    implementation(libs.logging.interceptor)
+    implementation(libs.moshi)
+    implementation(libs.retrofit.moshi.converter)
 }

@@ -1,10 +1,11 @@
 package com.example.spacexplorer
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.spacexplorer.databinding.ActivityMainBinding
@@ -17,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        //enableEdgeToEdge()
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         binding.apply {
@@ -29,21 +29,29 @@ class MainActivity : AppCompatActivity() {
             val appBarConfiguration = AppBarConfiguration(
                 setOf(
                     com.example.features.R.id.navigation_rocket,
-                    com.example.features.R.id.navigation_explore
+                    com.example.features.R.id.navigation_explore,
+                    com.example.features.R.id.navigation_dragons,
+                    com.example.features.R.id.navigation_favorites,
+                    com.example.features.R.id.navigation_ships,
                 )
             )
             setupActionBarWithNavController(navController, appBarConfiguration)
 
             when (navController.currentDestination?.id) {
-                com.example.features.R.id.navigation_rocket -> {
+                com.example.features.R.id.navigation_company -> {
                     supportActionBar?.apply {
-                        //setHomeButtonEnabled(true)
-                        setHomeAsUpIndicator(com.example.resources.R.drawable.baseline_arrow_back_24)
-                        setDisplayHomeAsUpEnabled(true)
+                        navView.isGone()
                     }
                 }
             }
         }
+
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(binding.fragmentContainer.id) as NavHostFragment
+        val navController = navHostFragment.navController
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     fun hideBottomNavAndToolBar() {

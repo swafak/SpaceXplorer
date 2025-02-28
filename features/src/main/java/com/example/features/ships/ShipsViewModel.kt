@@ -1,7 +1,7 @@
-package com.example.spacexplorer.test
+package com.example.features.ships
 
 import androidx.lifecycle.ViewModel
 
-class TestViewModel : ViewModel() {
+class ShipsViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

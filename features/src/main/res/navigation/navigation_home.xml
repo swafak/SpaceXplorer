@@ -8,13 +8,54 @@
     <fragment
         android:name="com.example.features.rockets.RocketFragment"
         tools:layout="@layout/fragment_rocket"
-        android:label="Rockets"
+        android:label="@string/Rockets"
         android:id="@+id/navigation_rocket"/>
 
     <fragment
         android:id="@+id/navigation_explore"
-        android:label="Explore"
+        android:label="@string/Explore"
         tools:layout="@layout/fragment_explore"
-        android:name="com.example.features.explore.ExploreFragment"/>
+        android:name="com.example.features.explore.ExploreFragment">
+
+        <action
+            android:id="@+id/action_explore_to_company_fragment"
+            app:destination="@id/navigation_company"/>
+    </fragment>
+
+    <fragment
+        android:name="com.example.features.history.HistoryFragment"
+        tools:layout="@layout/fragment_history"
+        android:label="@string/History"
+        android:id="@+id/navigation_history"/>
+    <fragment
+        android:name="com.example.features.launches.LaunchesFragment"
+        tools:layout="@layout/fragment_launches"
+        android:id="@+id/navigation_launches"
+        android:label="@string/Launches"/>
+
+
+    <fragment
+        android:id="@+id/navigation_dragons"
+        android:label="@string/Dragons"
+        android:name="com.example.features.dragons.DragonsFragment"
+        tools:layout="@layout/fragment_dragons"/>
+    <fragment
+        android:id="@+id/navigation_ships"
+        tools:layout="@layout/fragment_ships"
+        android:name="com.example.features.ships.ShipsFragment"
+        android:label="@string/Ships"/>
+
+    <fragment
+        android:id="@+id/navigation_favorites"
+        tools:layout="@layout/fragment_favorites"
+        android:name="com.example.features.favorites.FavoritesFragment"
+        android:label="@string/Favorites"
+        />
+    <fragment
+        android:id="@+id/navigation_company"
+        android:name="com.example.features.company.CompanyFragment"
+        android:label="@string/SpaceX"
+        tools:layout="@layout/fragment_company"/>
+
 
 </navigation>

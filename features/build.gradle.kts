@@ -53,5 +53,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(project(path = ":core:resources"))
+    implementation(project(path = ":core:network"))
+
+
 
 }

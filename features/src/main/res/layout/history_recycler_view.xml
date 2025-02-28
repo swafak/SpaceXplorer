@@ -46,7 +46,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/twitter_"
+        android:id="@+id/twitterText"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="20sp"
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/twitter"
         android:textStyle="italic"
-        app:layout_constraintStart_toEndOf="@id/twitter_"
+        app:layout_constraintStart_toEndOf="@id/twitterText"
         android:textSize="20sp"
         android:padding="5dp"
         android:text="@string/Twitter"
