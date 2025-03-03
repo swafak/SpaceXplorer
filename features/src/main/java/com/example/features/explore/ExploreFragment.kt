@@ -50,6 +50,7 @@ class ExploreFragment : Fragment() {
     }
     private val history = mutableListOf<HistoryResponseItem>()
     private val company = mutableListOf<CompanyResponse>()
+    private val launches = mutableListOf<LaunchesResponse>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +77,7 @@ class ExploreFragment : Fragment() {
                 }
             }
             arrowLaunches.setOnClickListener {
-                val action = ExploreFragmentDirections.actionNavigationExploreToNavigationLaunches()
+                val action = ExploreFragmentDirections.actionNavigationExploreToNavigationLaunches(LaunchesResponse = launches.toTypedArray())
                 findNavController().navigate(action)
             }
         }
@@ -86,10 +87,6 @@ class ExploreFragment : Fragment() {
         setCompanyObservers()
         fetchLaunchesData()
         setUpLaunchesObserver()
-
-
-
-
     }
 
     override fun onCreateView(
@@ -153,6 +150,8 @@ class ExploreFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.launches.collectLatest { launchesList->
                 launchesAdapter.submitList(launchesList)
+                launches.addAll(launchesList)
+                binding.arrowLaunches.isVisible = launches.isNotEmpty()
             }
         }
     }

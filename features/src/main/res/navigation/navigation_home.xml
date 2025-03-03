@@ -43,7 +43,11 @@
         android:name="com.example.features.launches.LaunchesFragment"
         tools:layout="@layout/fragment_launches"
         android:id="@+id/navigation_launches"
-        android:label="@string/Launches"/>
+        android:label="@string/Launches">
+        <argument
+            android:name="LaunchesResponse"
+            app:argType="com.example.network.model.data.LaunchesResponse[]" />
+    </fragment>
 
 
     <fragment

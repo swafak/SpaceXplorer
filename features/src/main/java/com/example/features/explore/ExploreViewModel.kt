@@ -23,8 +23,8 @@ class ExploreViewModel(private val historyRepository: HistoryRepository,
     private val _companyInfo = MutableStateFlow<CompanyResponse?>(null)
     val companyInfo: StateFlow<CompanyResponse?> = _companyInfo.asStateFlow()
 
-    private val _launches= MutableStateFlow<List<LaunchesResponse?>?>(emptyList())
-    val launches: StateFlow<List<LaunchesResponse?>?> = _launches.asStateFlow()
+    private val _launches= MutableStateFlow<List<LaunchesResponse>>(emptyList())
+    val launches: StateFlow<List<LaunchesResponse>> = _launches.asStateFlow()
 
     fun fetchLaunches(){
 
