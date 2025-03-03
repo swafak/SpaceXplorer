@@ -1,4 +1,6 @@
 dependencies {
     api(libs.koin)
+    api(libs.koin.core)
+    api(libs.koin.navigation)
     api(libs.lottie)
 }

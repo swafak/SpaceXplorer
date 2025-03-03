@@ -27,6 +27,13 @@
     <string name="state">State</string>
     <string name="city_">City : </string>
     <string name="state_">State : </string>
+    <string name="title_article"> Article title</string>
+    <string name="details">details</string>
+    <string name="event_date_">Event date : </string>
+    <string name="event_date">Event date</string>
+    <string name="article_link_">Article link : </string>
+    <string name="article_link">Article link</string>
+
 
 
 

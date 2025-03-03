@@ -12,17 +12,17 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class CompanyViewModel( private val repository: CompanyRepository) : ViewModel() {
-
-    private val _companyInfo = MutableStateFlow<CompanyResponse?>(null)
-    val companyInfo: StateFlow<CompanyResponse?> = _companyInfo.asStateFlow()
-
-
-    fun fetchCompanyInfo() {
-        viewModelScope.launch {
-            repository.getCompanyInfo().collectLatest { response ->
-                _companyInfo.value = response
-            }
-        }
-         }
+//
+//    private val _companyInfo = MutableStateFlow<CompanyResponse?>(null)
+//    val companyInfo: StateFlow<CompanyResponse?> = _companyInfo.asStateFlow()
+//
+//
+//    fun fetchCompanyInfo() {
+//        viewModelScope.launch {
+//            repository.getCompanyInfo().collectLatest { response ->
+//                _companyInfo.value = response
+//            }
+//        }
+//         }
 
 }

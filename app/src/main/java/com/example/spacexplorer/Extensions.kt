@@ -9,3 +9,4 @@ fun View.isGone() {
 fun View.isVisible() {
     this.visibility = View.VISIBLE
 }
+

@@ -20,13 +20,25 @@
         <action
             android:id="@+id/action_explore_to_company_fragment"
             app:destination="@id/navigation_company"/>
+        <action
+            android:id="@+id/action_navigation_explore_to_navigation_history"
+            app:destination="@id/navigation_history" />
+        <action
+            android:id="@+id/action_navigation_explore_to_navigation_launches"
+            app:destination="@id/navigation_launches" />
     </fragment>
 
     <fragment
         android:name="com.example.features.history.HistoryFragment"
         tools:layout="@layout/fragment_history"
         android:label="@string/History"
-        android:id="@+id/navigation_history"/>
+        android:id="@+id/navigation_history">
+
+        <argument
+            android:name="history"
+            app:argType="com.example.network.model.data.HistoryResponseItem[]" />
+
+    </fragment>
     <fragment
         android:name="com.example.features.launches.LaunchesFragment"
         tools:layout="@layout/fragment_launches"
@@ -55,7 +67,11 @@
         android:id="@+id/navigation_company"
         android:name="com.example.features.company.CompanyFragment"
         android:label="@string/SpaceX"
-        tools:layout="@layout/fragment_company"/>
+        tools:layout="@layout/fragment_company">
+        <argument
+            android:name="CompanyResponse"
+            app:argType="com.example.network.model.data.CompanyResponse" />
+    </fragment>
 
 
 </navigation>

@@ -1,28 +1,57 @@
 package com.example.features.history
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.features.R
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.features.databinding.FragmentHistoryBinding
+import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment() {
 
+    private lateinit var binding: FragmentHistoryBinding
 
-    private val viewModel: HistoryViewModel by viewModels()
+    private val adapter by lazy {
+        HistoryAdapter(
+            onClick =  {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
+            }
+        )
     }
+
+    private val args by navArgs<HistoryFragmentArgs>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_history, container, false)
+
+        binding = FragmentHistoryBinding.inflate(inflater, container, false)
+
+//        viewModel.fetchHistory()
+        setUpRecyclerView()
+        setUpObserver()
+
+
+        return binding.root
     }
+
+    private fun setUpRecyclerView() {
+
+        binding.HistoryRecycler.adapter = adapter
+        binding.HistoryRecycler.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun setUpObserver() {
+        lifecycleScope.launch {
+
+            adapter.submitList(args.history.toList())
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.network.di
 
 import com.example.network.model.api.SpaceXplorerAPI
 import com.example.network.model.repository.CompanyRepository
+import com.example.network.model.repository.HistoryRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -44,5 +45,7 @@ object CoreNetworkModule {
             get<Retrofit>().create(SpaceXplorerAPI::class.java)
         }
         single { CompanyRepository(get()) }
+
+        single{ HistoryRepository(get())}
     }
 }

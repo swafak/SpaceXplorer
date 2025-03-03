@@ -8,23 +8,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.example.features.databinding.FragmentCompanyBinding
-import com.example.network.model.data.CompanyResponse
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class CompanyFragment : Fragment() {
 
-    private val viewModel by lazy {
-        requireParentFragment().getViewModel<CompanyViewModel>()
-    }
-
-    private var result: CompanyResponse? = null
 
     private lateinit var binding: FragmentCompanyBinding
+
+    private val args by navArgs<CompanyFragmentArgs>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setObservers()
     }
 
     override fun onCreateView(
@@ -33,33 +36,26 @@ class CompanyFragment : Fragment() {
     ): View {
         binding = FragmentCompanyBinding.inflate(inflater, container, false)
 
-        viewModel.fetchCompanyInfo()
-
-
-        setObservers()
-
-
         return binding.root
     }
 
     private fun setObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.companyInfo.collect { result ->
-                    result?.let { safeResult ->
-                        binding.apply {
-                            summary.text = safeResult.summary
-                            website.text = safeResult.links.website
-                            twitter.text = safeResult.links.twitter
-                            flickr.text = safeResult.links.flickr
-                            address.text = safeResult.headquarters.address
-                            city.text = safeResult.headquarters.city
-                            state.text = safeResult.headquarters.state
-                        }
 
-                    }
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                binding.apply {
+
+                    summary.text = args.CompanyResponse.summary
+                    website.text = args.CompanyResponse.links.website
+                    twitter.text = args.CompanyResponse.links.twitter
+                    flickr.text = args.CompanyResponse.links.flickr
+                    address.text = args.CompanyResponse.headquarters.address
+                    city.text = args.CompanyResponse.headquarters.city
+                    state.text = args.CompanyResponse.headquarters.state
+
+                }
+
                 }
             }
         }
     }
-}
