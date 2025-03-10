@@ -6,10 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".launches.LaunchesFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <SearchView
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/search_bar"
+        android:queryHint="@string/Search"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/Recycler"
         />

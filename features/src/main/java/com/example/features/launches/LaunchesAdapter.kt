@@ -10,51 +10,41 @@ import com.example.features.R
 import com.example.features.databinding.LaunchesRecViewBinding
 import com.example.network.model.data.LaunchesResponse
 
-class LaunchesAdapter (
-    private val onClick : (LaunchesResponse) -> Unit
+class LaunchesAdapter(
+    private val onClick: (LaunchesResponse) -> Unit
 ) : ListAdapter<LaunchesResponse, LaunchesAdapter.LaunchesViewHolder>(LaunchesViewHolder.LaunchesDiffCallback()) {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchesViewHolder {
         val binding =
             LaunchesRecViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return LaunchesViewHolder(binding)
+        return LaunchesViewHolder(binding,onClick)
     }
 
 
     override fun onBindViewHolder(holder: LaunchesViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
-        holder.itemView.setOnClickListener {
+        /*holder.itemView.setOnClickListener {
             onClick(item)
-        }
+        }*/
 
     }
 
-    class LaunchesViewHolder(val binding: LaunchesRecViewBinding) :
+    class LaunchesViewHolder(val binding: LaunchesRecViewBinding,private val onClick: (LaunchesResponse) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: LaunchesResponse) {
             binding.apply {
                 Name.text = item.name
                 date.text = item.dateUtc
-//
-//
-//                Glide.with(ImageLogo.context)
-//                    .load(item.links?.flickr?.original)
-//                    .into(ImageLogo)
-//            }
-                val imageUrl = item.links?.patch?.small
 
-                if (!imageUrl.isNullOrEmpty()) {
+//                if (!imageUrl.isNullOrEmpty()) {
                     Glide.with(ImageLogo.context)
-                        .load(imageUrl)
+                        .load(item.links?.patch?.small)
+                        .placeholder(R.drawable.baseline_rocket_24)
                         .into(ImageLogo)
-                } else {
-                    Glide.with(ImageLogo.context)
-                        .load(R.drawable.baseline_rocket_24) // Replace with your placeholder drawable
-                        .into(ImageLogo)
+                ImageLogo.setOnClickListener {
+                    onClick(item)
                 }
-
             }
         }
 

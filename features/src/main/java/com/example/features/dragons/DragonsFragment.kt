@@ -1,31 +1,68 @@
 package com.example.features.dragons
 
-import androidx.fragment.app.viewModels
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.features.R
+import com.example.features.databinding.FragmentDragonsBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class DragonsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DragonsFragment()
+
+    private val viewModel: DragonsViewModel by viewModel()
+    private lateinit var binding: FragmentDragonsBinding
+
+    private val adapter by lazy{
+        DragonAdapter()
     }
 
-    private val viewModel: DragonsViewModel by viewModels()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        setUprecycler()
+        viewModel.fetchLaunches()
+        setUpObserver()
 
-        // TODO: Use the ViewModel
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_dragons, container, false)
+        binding = FragmentDragonsBinding.inflate(inflater, container, false)
+
+        return  binding.root
     }
+
+    private fun setUprecycler(){
+
+        binding.Recycler.adapter = adapter
+        binding.Recycler.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun setUpObserver(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                viewModel.dragon.collect{response->
+                    adapter.submitList(response)
+
+                }
+            }
+
+            }
+
+            }
 }

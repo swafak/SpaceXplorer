@@ -1,15 +1,14 @@
 package com.example.features.launches
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.features.R
 import com.example.features.databinding.FragmentLaunchesBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,7 +24,7 @@ class LaunchesFragment : Fragment() {
     private val adapter by lazy {
         LaunchesAdapter(
             onClick = {
-
+                Toast.makeText(requireContext(), "Launches clicked", Toast.LENGTH_SHORT).show()
             }
         )
     }
@@ -43,11 +42,12 @@ class LaunchesFragment : Fragment() {
         binding = FragmentLaunchesBinding.inflate(inflater, container, false)
 
         binding.Recycler.adapter = adapter
-        binding.Recycler.layoutManager = GridLayoutManager(requireContext(),3)
+        binding.Recycler.layoutManager = GridLayoutManager(requireContext(), 3)
 
         lifecycleScope.launch {
 
             adapter.submitList(args.LaunchesResponse.toList())
+
         }
 
         return binding.root

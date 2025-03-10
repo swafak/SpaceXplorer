@@ -8,12 +8,15 @@ import kotlinx.coroutines.flow.flow
 
 class CompanyRepository(private val api: SpaceXplorerAPI) {
 
-    fun getCompanyInfo(): Flow<CompanyResponse> = flow {
-        try {
-            val response = api.getCompany()
-            emit(response)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+//    fun getCompanyInfo(): Flow<CompanyResponse> = flow {
+//        try {
+//            val response = api.getCompany()
+//            emit(response)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//    }
+
+    suspend fun getCompanyInfo()= api.getCompany()
+
 }

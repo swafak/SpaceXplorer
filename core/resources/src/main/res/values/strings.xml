@@ -33,6 +33,15 @@
     <string name="event_date">Event date</string>
     <string name="article_link_">Article link : </string>
     <string name="article_link">Article link</string>
+    <string name="first_flight_">first flight : </string>
+    <string name="first_flight">first flight</string>
+    <string name="Type_">Type : </string>
+    <string name="Type">Type</string>
+    <string name="crew_capacity_">Crew capacity : </string>
+    <string name="crew_capacity">Crew capacity</string>
+    <string name="Search">Search</string>
+
+
 
 
 

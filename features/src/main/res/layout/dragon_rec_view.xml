@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp"
+    android:background="@color/black">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardView"
+        app:cardCornerRadius="10dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
+            tools:src="@tools:sample/avatars"
+            android:id="@+id/ImageLogo" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/cardView"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="@id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="@string/Nasa_explorer"
+        android:id="@+id/Name" />
+
+    <TextView
+        style="@style/normal_text"
+        android:id="@+id/summary"
+        android:padding="8dp"
+        android:textAlignment="gravity"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Name"
+        android:text="@string/Summary"
+        android:textStyle="bold" />
+    <TextView
+        style="@style/TitleText"
+        android:text="@string/first_flight_"
+        android:id="@+id/flight_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/summary"
+        android:textColor="@color/white"/>
+    <TextView
+        style="@style/normal_text"
+        android:text="@string/first_flight"
+        android:id="@+id/first_flight"
+        app:layout_constraintStart_toEndOf="@id/flight_text"
+        app:layout_constraintTop_toBottomOf="@id/summary"
+        android:textColor="@color/white"/>
+    <TextView
+        style="@style/TitleText"
+        android:text="@string/Type_"
+        android:id="@+id/type_text"
+        app:layout_constraintTop_toBottomOf="@id/first_flight"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        style="@style/normal_text"
+        android:text="@string/Type"
+        android:id="@+id/type"
+        app:layout_constraintTop_toBottomOf="@id/first_flight"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/type_text"/>
+    <TextView
+        style="@style/TitleText"
+        android:id="@+id/capacity_text"
+        app:layout_constraintTop_toBottomOf="@id/type_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white"
+        android:text="@string/crew_capacity_"/>
+    <TextView
+        style="@style/normal_text"
+        android:id="@+id/capacity"
+        app:layout_constraintTop_toBottomOf="@id/type_text"
+        app:layout_constraintStart_toEndOf="@id/capacity_text"
+        android:textColor="@color/white"
+        android:text="@string/crew_capacity"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

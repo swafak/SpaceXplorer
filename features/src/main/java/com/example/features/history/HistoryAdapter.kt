@@ -8,7 +8,6 @@ import com.example.features.databinding.HistoryRecViewBinding
 import com.example.network.model.data.HistoryResponseItem
 
 class HistoryAdapter(
-    private val onClick : (HistoryResponseItem) -> Unit
 ) : ListAdapter<HistoryResponseItem, HistoryAdapter.HistoryViewHolder>(HistoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -20,9 +19,6 @@ class HistoryAdapter(
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
-        holder.itemView.setOnClickListener {
-            onClick(item)
-        }
 
     }
 
@@ -32,7 +28,7 @@ class HistoryAdapter(
             binding.apply{
                 linkArticle.text = item.links.article
                 details.text = item.details
-                eventDate.text = item.event_date_utc
+                eventDate.text = item.eventDateUtc
                 articleTitle.text = item.title
 
             }

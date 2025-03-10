@@ -6,26 +6,43 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
 import com.example.features.R
+import com.example.features.databinding.FragmentFavoritesBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class FavoritesFragment : Fragment() {
+    private lateinit var binding: FragmentFavoritesBinding
+//    private val viewModel: FavoritesViewModel by viewModels()
 
-    companion object {
-        fun newInstance() = FavoritesFragment()
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    private val viewModel: FavoritesViewModel by viewModels()
+        val viewPager: ViewPager2 = binding.viewPager
+        val tabLayout: TabLayout = binding.tabLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        val pagerAdapter = FavoritePagerAdapter(requireActivity())
+        viewPager.adapter = pagerAdapter
 
-        // TODO: Use the ViewModel
-    }
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Ships"
+                1 -> tab.text = "Dragons"
+                2 -> tab.text = "Rockets"
+            }
+        }.attach()
+
+
+
+}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 }

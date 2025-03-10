@@ -7,13 +7,15 @@ import kotlinx.coroutines.flow.flow
 
 class HistoryRepository(private val api: SpaceXplorerAPI) {
 
-    fun getHistoryInfo(): Flow<List<HistoryResponseItem>> = flow {
-        try {
-            val response = api.getHistory()
-            emit(response)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(emptyList())
-        }
-    }
+//    fun getHistoryInfo(): Flow<List<HistoryResponseItem>> = flow {
+//        try {
+//            val response = api.getHistory()
+//            emit(response)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            emit(emptyList())
+//        }
+//    }
+
+    suspend fun getHistoryInfo() = api.getHistory()
 }

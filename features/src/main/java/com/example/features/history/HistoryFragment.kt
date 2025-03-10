@@ -16,11 +16,7 @@ class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryBinding
 
     private val adapter by lazy {
-        HistoryAdapter(
-            onClick =  {
-
-            }
-        )
+        HistoryAdapter()
     }
 
     private val args by navArgs<HistoryFragmentArgs>()
@@ -33,7 +29,6 @@ class HistoryFragment : Fragment() {
 
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
 
-//        viewModel.fetchHistory()
         setUpRecyclerView()
         setUpObserver()
 
