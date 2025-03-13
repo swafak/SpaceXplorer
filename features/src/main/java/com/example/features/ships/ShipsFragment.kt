@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.transition.TransitionManager
 import com.example.features.R
 import com.example.features.databinding.FragmentShipsBinding
 import com.example.network.model.data.ShipsResponseItem
@@ -53,14 +56,28 @@ class ShipsFragment : Fragment() {
         binding.recycler.layoutManager = GridLayoutManager(requireContext(),3)
 
     }
+    private fun renderLoading(isLoading: Boolean) {
+        binding.apply {
+            TransitionManager.beginDelayedTransition(binding.root)
+            loading.isVisible = isLoading
+            recycler.isGone = isLoading
+        }
+    }
 
     private fun setUpObserver(){
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.ships.collectLatest { response ->
-                    adapter.submitList(response)
+                viewModel.uiState.collectLatest { uistate ->
+
+                    renderLoading(uistate.isLoading)
+
+                    uistate.ships.let {
+                        adapter.submitList(uistate.ships)
+
+                    }
+
                 }
             }
 

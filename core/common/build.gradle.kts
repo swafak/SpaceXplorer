@@ -1,13 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.navigation.safeargs)
 }
-apply {
-    from("${rootDir}/shared.gradle")
-}
+
 android {
-    namespace = "com.example.features"
+    namespace = "com.example.common"
     compileSdk = 35
 
     defaultConfig {
@@ -33,8 +30,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures{
-        dataBinding = true
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -45,18 +41,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.legacy.support.v4)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.glide)
+    implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(project(path = ":core:resources"))
-    implementation(project(path = ":core:network"))
-    implementation(project(path = ":core:common"))
-    implementation("io.coil-kt:coil:2.7.0")
-
 }

@@ -7,16 +7,18 @@ import kotlinx.coroutines.flow.flow
 
 class RocketRepository(private val api: SpaceXplorerAPI) {
 
-   fun getRocketsInfo(): Flow<List<RocketsResponse>> = flow {
-       try {
-           val response = api.getRockets()
-           emit(response)
-       }
-        catch (e: Exception) {
-           e.printStackTrace()
-           emit(emptyList())
-       }
+//   fun getRocketsInfo(): Flow<List<RocketsResponse>> = flow {
+//       try {
+//           val response = api.getRockets()
+//           emit(response)
+//       }
+//        catch (e: Exception) {
+//           e.printStackTrace()
+//           emit(emptyList())
+//       }
+//
+//    }
 
-    }
+   suspend fun getRocketInfo() = api.getRockets()
 
 }

@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.SearchView
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import com.example.features.databinding.FragmentRocketBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,9 +26,9 @@ class RocketFragment : Fragment() {
 
     private val adapter by lazy {
         RocketAdapter(
-            onClick = {
-                Toast.makeText(requireContext(),"Rocket clicked", Toast.LENGTH_SHORT).show()
-
+            onClick = { rocket ->
+                val bottomDialogFragment = RocketDetailDialogFragment(rocket)
+                bottomDialogFragment.show(parentFragmentManager , "RocketDetailDialog")
             }
         )
 
@@ -42,11 +44,10 @@ class RocketFragment : Fragment() {
 
         setUpRecycler()
         setUpObserver()
+        setUpSearchView()
 
-        if(viewModel.rocket.value.isEmpty())
-        {
+
             viewModel.fetchRockets()
-        }
 
 
 
@@ -68,18 +69,43 @@ class RocketFragment : Fragment() {
         binding.RocketRecycler.layoutManager = LinearLayoutManager(requireContext())
 
     }
+    private fun renderLoading(isLoading: Boolean) {
+        binding.apply {
+            TransitionManager.beginDelayedTransition(binding.root)
+            loading.isVisible = isLoading
+            RocketRecycler.isGone = isLoading
+        }
+    }
 
     private fun setUpObserver(){
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.rocket.collectLatest { response ->
-                    adapter.submitList(response)
+                viewModel.uiState.collectLatest { uiState->
+
+                    renderLoading(uiState.isLoading)
+                    uiState.rocketData.let {
+                        adapter.submitFullList(uiState.rocketData)
+                    }
                 }
             }
 
         }
 
     }
+    private fun setUpSearchView() {
+        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { adapter.filter(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { adapter.filter(it) }
+                return true
+            }
+        })
+    }
+
 }

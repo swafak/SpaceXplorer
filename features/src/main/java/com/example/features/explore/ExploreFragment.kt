@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import com.example.features.databinding.FragmentExploreBinding
 import com.example.features.history.HistoryAdapter
 import com.example.features.launches.LaunchesAdapter
@@ -75,9 +77,9 @@ class ExploreFragment : Fragment() {
         setUpHistoryRecycler()
         observeData()
 
-        viewModel.fetchLaunches()
-        viewModel.fetchHistory()
-        viewModel.fetchCompanyInfo()
+        viewModel.getData()
+        //viewModel.fetchHistory()
+        //viewModel.fetchCompanyInfo()
 
 
 
@@ -103,23 +105,13 @@ class ExploreFragment : Fragment() {
 
 
     }
-
-    private fun setUpHistoryObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                viewModel.history.collect { historyList ->
-                    historyAdapter.submitList(historyList)
-                    history.addAll(historyList)
-                    binding.arrowHistory.isVisible = history.isNotEmpty()
-
-                }
-            }
-
+    private fun renderLoading(isLoading: Boolean) {
+        binding.apply {
+            TransitionManager.beginDelayedTransition(contentParent)
+            loading.isVisible = isLoading
+            contentParent.isGone = isLoading
         }
     }
-
-
 
     private fun setUpLaunchRecycler() {
 
@@ -128,28 +120,16 @@ class ExploreFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun setUpLaunchesObserver() {
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.launches.collectLatest { launchesList ->
-                    launchesAdapter.submitList(launchesList)
-                    launches.addAll(launchesList)
-                    binding.arrowLaunches.isVisible = launches.isNotEmpty()
-                }
-            }
-        }
-    }
 
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collectLatest { uiState ->
 //                    when {
-//                        is uiState.isLoading -> {}
-//                        uiState.companyResponse != null -> {
-//                        }
+//                       uiState.isLoading -> renderLoading(true)
 
+                        renderLoading(uiState.isLoading)
 
                         uiState.companyResponse?.let { companyResult ->
                             binding.website.text = companyResult.links.website

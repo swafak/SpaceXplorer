@@ -5,22 +5,40 @@ import androidx.lifecycle.viewModelScope
 import com.example.network.model.data.RocketsResponse
 import com.example.network.model.repository.RocketRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RocketViewModel(private val repository: RocketRepository) : ViewModel() {
 
-    private val _rocketData = MutableStateFlow<List<RocketsResponse>>(emptyList())
+    private val _uiState = MutableStateFlow(RocketUiState())
 
-    val rocket : StateFlow<List<RocketsResponse>> = _rocketData.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
-    fun fetchRockets(){
+    fun fetchRockets() {
         viewModelScope.launch {
-            repository.getRocketsInfo().collectLatest { response ->
-                _rocketData.value = response
+            val response = repository.getRocketInfo()
+            if (response.isEmpty()) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false
+                    )
+                }
+            } else {
+                _uiState.update {
+                    it.copy(
+                        rocketData = response,
+                        isLoading = false
+                    )
+                }
             }
         }
     }
+
 }
+
+data class RocketUiState(
+    val rocketData :List<RocketsResponse> =emptyList(),
+    val isLoading: Boolean = false
+
+)

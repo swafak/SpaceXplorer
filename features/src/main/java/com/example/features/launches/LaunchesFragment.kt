@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -29,10 +30,11 @@ class LaunchesFragment : Fragment() {
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Use the ViewModel
+        setUpData()
+        setUpSearchView()
     }
 
     override fun onCreateView(
@@ -41,15 +43,27 @@ class LaunchesFragment : Fragment() {
     ): View {
         binding = FragmentLaunchesBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+    private fun setUpData(){
         binding.Recycler.adapter = adapter
         binding.Recycler.layoutManager = GridLayoutManager(requireContext(), 3)
 
         lifecycleScope.launch {
-
-            adapter.submitList(args.LaunchesResponse.toList())
-
+            adapter.submitFullList(args.LaunchesResponse.toList())
         }
+    }
+    private fun setUpSearchView() {
+        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { adapter.filter(it) }
+                return true
+            }
 
-        return binding.root
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { adapter.filter(it) }
+                return true
+            }
+        })
     }
 }

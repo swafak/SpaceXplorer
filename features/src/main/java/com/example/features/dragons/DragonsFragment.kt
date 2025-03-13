@@ -1,21 +1,21 @@
 package com.example.features.dragons
 
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.features.R
+import androidx.transition.TransitionManager
 import com.example.features.databinding.FragmentDragonsBinding
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DragonsFragment : Fragment() {
 
@@ -23,7 +23,7 @@ class DragonsFragment : Fragment() {
     private val viewModel: DragonsViewModel by viewModel()
     private lateinit var binding: FragmentDragonsBinding
 
-    private val adapter by lazy{
+    private val adapter by lazy {
         DragonAdapter()
     }
 
@@ -31,7 +31,7 @@ class DragonsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUprecycler()
-        viewModel.fetchLaunches()
+        viewModel.fetchDragon()
         setUpObserver()
 
 
@@ -43,26 +43,38 @@ class DragonsFragment : Fragment() {
     ): View {
         binding = FragmentDragonsBinding.inflate(inflater, container, false)
 
-        return  binding.root
+        return binding.root
     }
 
-    private fun setUprecycler(){
+    private fun setUprecycler() {
 
         binding.Recycler.adapter = adapter
         binding.Recycler.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun setUpObserver(){
+    private fun renderLoading(isLoading: Boolean) {
+        binding.apply {
+            TransitionManager.beginDelayedTransition(binding.root)
+            loading.isVisible = isLoading
+            Recycler.isGone = isLoading
+        }
+    }
+
+    private fun setUpObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.dragon.collect{response->
-                    adapter.submitList(response)
+                viewModel.uiState.collectLatest { uistate ->
 
+                    renderLoading(uistate.isLoading)
+                    uistate.dragonInfo.let {
+                        adapter.submitList(uistate.dragonInfo)
+                    }
                 }
-            }
 
             }
+        }
 
-            }
+    }
+
 }

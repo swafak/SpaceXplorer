@@ -15,6 +15,21 @@ class RocketAdapter(
     private val onClick : (RocketsResponse) -> Unit
 ) : ListAdapter<RocketsResponse, RocketAdapter.RocketViewHolder>(RocketDiffCallback()) {
 
+    private var originalList: List<RocketsResponse> = emptyList()
+
+    fun submitFullList(list: List<RocketsResponse>) {
+        originalList = list
+        submitList(list)
+    }
+
+    fun filter(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            originalList
+        } else {
+            originalList.filter { it.name!!.contains(query, ignoreCase = true) }
+        }
+        submitList(filteredList)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RocketViewHolder {
         val binding =
             RocketRecViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -38,8 +53,6 @@ class RocketAdapter(
         fun bind(item: RocketsResponse) {
             binding.apply {
                 Name.text = item.name
-//                date.text = item.active.toString()
-
                 Glide.with(Image1.context)
                     .load(item.flickrImages?.first())
                     .placeholder(R.drawable.baseline_rocket_24)

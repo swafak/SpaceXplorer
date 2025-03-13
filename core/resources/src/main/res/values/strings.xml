@@ -40,6 +40,21 @@
     <string name="crew_capacity_">Crew capacity : </string>
     <string name="crew_capacity">Crew capacity</string>
     <string name="Search">Search</string>
+    <string name="height_">height : </string>
+    <string name="height">height</string>
+    <string name="Country">Country</string>
+    <string name="Country_">Country : </string>
+    <string name="Mass_">Mass : </string>
+    <string name="Mass">Mass</string>
+    <string name="Wikipedia_">Wikipedia : </string>
+    <string name="Wikipedia">Wikipedia</string>
+    <string name="Active">Active</string>
+    <string name="Active_">Active : </string>
+    <string name="successRatePct_">successRatePct : </string>
+    <string name="successRatePct">successRatePct</string>
+
+
+
 
 
 

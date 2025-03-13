@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/company_fragment_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <ImageView
+                    android:id="@+id/Image"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    android:src="@drawable/spacex"
+                    app:layout_collapseMode="parallax"/>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+                <TextView
+                    android:id="@+id/description_text"
+                    android:text="@string/details"
+                    style="@style/TitleText"
+                    android:padding="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    style="@style/normal_text"
+                    android:id="@+id/description"
+                    app:layout_constraintTop_toBottomOf="@id/description_text"
+                    android:text="@string/details"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingBottom="10dp"/>
+
+                <TextView
+                    android:text="@string/Website"
+                    style="@style/TitleText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/websiteText"
+                    app:layout_constraintTop_toBottomOf="@id/description" />
+
+                <TextView
+                    style="@style/Italic_text"
+                    android:id="@+id/website"
+                    android:text="@string/Website"
+                    app:layout_constraintStart_toEndOf="@+id/websiteText"
+                    app:layout_constraintTop_toBottomOf="@id/description" />
+
+                <TextView
+                    android:id="@+id/height_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/height_"
+                    style="@style/TitleText"
+                    app:layout_constraintTop_toBottomOf="@id/websiteText" />
+
+                <TextView
+                    android:id="@+id/height"
+                    app:layout_constraintStart_toEndOf="@id/height_text"
+                    android:text="@string/height"
+                    style="@style/Italic_text"
+                    app:layout_constraintTop_toBottomOf="@id/websiteText" />
+
+                <TextView
+                    style="@style/TitleText"
+                    android:id="@+id/mass_text"
+                    android:text="@string/Mass_"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/height" />
+
+                <TextView
+                    style="@style/Italic_text"
+                    android:text="@string/Mass"
+                    android:id="@+id/mass"
+                    app:layout_constraintStart_toEndOf="@+id/mass_text"
+                    app:layout_constraintTop_toBottomOf="@id/mass" />
+
+                <TextView
+                    style="@style/TitleText"
+                    android:padding="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/mass"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/first_flight_"
+                    android:id="@+id/first_flight_text" />
+
+                <TextView
+                    style="@style/normal_text"
+                    app:layout_constraintStart_toEndOf="@id/first_flight_text"
+                    android:text="@string/first_flight"
+                    android:id="@+id/first_flight"
+                    app:layout_constraintTop_toBottomOf="@id/mass" />
+
+                <TextView
+                    style="@style/normal_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/successRatePc_text"
+                    android:text="@string/successRatePct_"
+                    app:layout_constraintTop_toBottomOf="@id/first_flight" />
+
+                <TextView
+                    style="@style/normal_text"
+                    app:layout_constraintStart_toEndOf="@id/successRatePc_text"
+                    app:layout_constraintTop_toBottomOf="@id/first_flight_text"
+                    android:text="@string/successRatePct"
+                    android:id="@+id/successRatePct" />
+
+                <TextView
+                    style="@style/normal_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/successRatePc_text"
+                    android:text="@string/Active_"
+                    android:id="@+id/active_text" />
+
+                <TextView
+                    style="@style/normal_text"
+                    app:layout_constraintStart_toEndOf="@id/active_text"
+                    app:layout_constraintTop_toBottomOf="@id/successRatePc_text"
+                    android:text="@string/Active"
+                    android:id="@+id/active" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>

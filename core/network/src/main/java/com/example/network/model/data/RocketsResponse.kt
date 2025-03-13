@@ -17,6 +17,7 @@ data class RocketsResponse(
     val stages: Long?,
     val boosters: Long?,
     val costPerLaunch: Long?,
+    @Json(name = "success_rate_pct")
     val successRatePct: Long?,
     @Json(name = "first_flight")
     val firstFlight: String?,
