@@ -5,29 +5,39 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
-import coil.load
-import com.bumptech.glide.Glide
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.example.common.BottomDialogFragment
+import com.example.data.room.FavoriteDB
+import com.example.data.room.RocketEntity
 import com.example.features.R
 import com.example.features.databinding.FragmentRocketDetailDialogBinding
+import com.example.features.favorites.FavoritesViewModel
 import com.example.network.model.data.RocketsResponse
-import kotlinx.coroutines.launch
-
+import org.koin.androidx.viewmodel.ext.android.viewModel
 class RocketDetailDialogFragment(private val response: RocketsResponse) : BottomDialogFragment(
     R.layout.fragment_rocket_detail_dialog
 ) {
 
     private lateinit var binding: FragmentRocketDetailDialogBinding
+    private val viewModel: FavoritesViewModel by viewModel()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val database = FavoriteDB.getDatabase(requireContext())
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpdata()
+
+        binding.favoriteIcon.setOnClickListener{
+            toggleFavorite(response)
+        }
 
     }
 
@@ -39,7 +49,7 @@ class RocketDetailDialogFragment(private val response: RocketsResponse) : Bottom
 
         return binding.root
     }
-    private fun setUpdata(){
+     private fun setUpdata() {
         binding.apply {
             description.text = response.description
             website.text = response.wikipedia
@@ -51,16 +61,16 @@ class RocketDetailDialogFragment(private val response: RocketsResponse) : Bottom
 
             Log.d("IMAGE", "SEE: ${response.flickrImages?.first()}")
 //
-            viewLifecycleOwner.lifecycleScope.launch{
-                Glide.with(dialog?.context ?: requireContext())
-                    .load(response.flickrImages?.first())
-                    .fitCenter()
-                    .placeholder(R.drawable.baseline_rocket_24)
-//                .dontAnimate()
-//                .error(R.drawable.baseline_rocket_24)
-                    .into(Image)
+//            viewLifecycleOwner.lifecycleScope.launch{
+//                Glide.with(dialog?.context ?: requireContext())
+//                    .load(response.flickrImages?.first())
+//                    .fitCenter()
+//                    .placeholder(R.drawable.baseline_rocket_24)
+////                .dontAnimate()
+////                .error(R.drawable.baseline_rocket_24)
+//                    .into(Image)
 
-            }
+//            }
 
 //            Image.load(response.flickrImages?.first()) {
 //                crossfade(true)
@@ -68,8 +78,54 @@ class RocketDetailDialogFragment(private val response: RocketsResponse) : Bottom
 //                error(R.drawable.baseline_rocket_24)
 //            }
 
+
         }
+    }
+
+    private fun addToFav(item: RocketsResponse){
+        val rocketEntity = RocketEntity(
+                id = item.id,
+                name = item.name,
+                type = item.type,
+                country = item.country,
+                costPerLaunch = item.costPerLaunch,
+                description = item.description,
+                wikipedia = item.wikipedia,
+                stages = item.stages,
+                successRatePct = item.successRatePct,
+                firstFlight = item.firstFlight,
+                flickrImages = item.flickrImages,
+                active = item.active,
+                boosters = item.boosters,
+                company = item.company)
+        viewModel.insertRocket(rocketEntity)
+
+        }
+    private fun removeFromFavorite(item: RocketsResponse){
+        item.id?.let{
+            viewModel.deleteRocket(it)
+        }
+    }
+    private fun toggleFavorite(item: RocketsResponse) {
+        item.id?.let {
+            viewModel.isFavRocket(it).observe(viewLifecycleOwner, Observer { isFavorite ->
+                if (isFavorite) {
+                    Toast.makeText(context, "Removed from favorite", Toast.LENGTH_SHORT).show()
+                    removeFromFavorite(item)
+                    updateFavoriteIcon(false)
+                } else {
+                    addToFav(item)
+                    Toast.makeText(context, "Added to favorite", Toast.LENGTH_SHORT).show()
+                    updateFavoriteIcon(true)
+                }
+            })
+        }
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        val color = if (isFavorite) com.example.resources.R.color.blue else com.example.resources.R.color.white
+        binding.favoriteIcon.setColorFilter(ContextCompat.getColor(requireContext(), color))
+    }
 
     }
 
-}

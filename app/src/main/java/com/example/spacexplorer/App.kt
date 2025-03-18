@@ -1,9 +1,11 @@
 package com.example.spacexplorer
 
 import android.app.Application
+import com.example.data.di.DataModule
 import com.example.features.di.FeatureModule
 import com.example.network.di.CoreNetworkModule
 import com.example.network.di.NetworkModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class App : Application() {
@@ -11,10 +13,13 @@ class App : Application() {
         super.onCreate()
 
         startKoin {
+            androidContext(this@App)
             modules(AppModule.module,
                 FeatureModule.module,
                 NetworkModule.module,
-                CoreNetworkModule.module
+                CoreNetworkModule.module,
+                DataModule.module
+
                 )
         }
     }

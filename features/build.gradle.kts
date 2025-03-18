@@ -57,6 +57,8 @@ dependencies {
     implementation(project(path = ":core:resources"))
     implementation(project(path = ":core:network"))
     implementation(project(path = ":core:common"))
+    implementation(project(path = ":core:data"))
+
     implementation("io.coil-kt:coil:2.7.0")
 
 }

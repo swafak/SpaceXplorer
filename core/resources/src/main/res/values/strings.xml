@@ -45,13 +45,18 @@
     <string name="Country">Country</string>
     <string name="Country_">Country : </string>
     <string name="Mass_">Mass : </string>
-    <string name="Mass">Mass</string>
+    <string name="Mass">Mass : </string>
     <string name="Wikipedia_">Wikipedia : </string>
     <string name="Wikipedia">Wikipedia</string>
     <string name="Active">Active</string>
     <string name="Active_">Active : </string>
     <string name="successRatePct_">successRatePct : </string>
     <string name="successRatePct">successRatePct</string>
+    <string name="model">Model : </string>
+    <string name="status">Status : </string>
+    <string name="homePort">homePort : </string>
+    <string name="year">Year built : </string>
+
 
 
 

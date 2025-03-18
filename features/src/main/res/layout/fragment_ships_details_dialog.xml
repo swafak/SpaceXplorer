@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/company_fragment_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/Image"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                android:src="@drawable/spacex"
+                app:layout_collapseMode="parallax"/>
+                <ImageButton
+                    android:id="@+id/favoriteIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="2dp"
+                    android:src="@android:drawable/btn_star_big_off"
+                    android:background="@null"
+                    android:contentDescription="Favorite Icon"/>
+            </FrameLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+            <TextView
+                android:id="@+id/Name"
+                android:text="@string/Nasa_explorer"
+                style="@style/TitleText"
+                android:padding="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                style="@style/TitleText"
+                android:id="@+id/Launches_text"
+                app:layout_constraintTop_toBottomOf="@id/Name"
+                android:text="@string/Launches"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingBottom="10dp"/>
+            <TextView
+                style="@style/normal_text"
+                android:id="@+id/Launches"
+                app:layout_constraintTop_toBottomOf="@+id/Launches_text"
+                app:layout_constraintStart_toStartOf="parent"
+
+                />
+
+            <TextView
+                android:id="@+id/model"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/model"
+                style="@style/normal_text"
+                app:layout_constraintTop_toBottomOf="@id/Launches" />
+
+            <TextView
+                style="@style/normal_text"
+                android:text="@string/Mass"
+                android:id="@+id/mass"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/model" />
+
+            <TextView
+                style="@style/normal_text"
+                app:layout_constraintTop_toBottomOf="@id/mass"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/year"
+                android:id="@+id/year" />
+
+            <TextView
+                style="@style/normal_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/year"
+                android:text="@string/homePort"
+                android:id="@+id/homePort" />
+
+            <TextView
+                style="@style/normal_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homePort"
+                android:text="@string/status"
+                android:id="@+id/active" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

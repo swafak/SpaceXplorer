@@ -8,13 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.features.R
 import com.example.features.databinding.LaunchesRecViewBinding
-import com.example.network.model.data.LaunchesResponse
 import com.example.network.model.data.ShipsResponseItem
 
 class ShipsAdapter (
     private val onClick: (ShipsResponseItem) -> Unit
     ) : ListAdapter<ShipsResponseItem, ShipsAdapter.ShipsViewHolder>(ShipsViewHolder.ShipsDiffCallback()) {
 
+    private var originalList: List<ShipsResponseItem> = emptyList()
+
+    fun submitFullList(list: List<ShipsResponseItem>) {
+        originalList = list
+        submitList(list)
+    }
+
+    fun filter(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            originalList
+        } else {
+            originalList.filter { it.name!!.contains(query, ignoreCase = true) }
+        }
+        submitList(filteredList)
+    }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShipsViewHolder {
             val binding =
                 LaunchesRecViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)

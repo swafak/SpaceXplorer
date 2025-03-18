@@ -31,7 +31,7 @@ data class DragonResponse(
     val dryMassLb: Long?,
     val wikipedia: String?,
     val description: String?,
-    val id: String?
+    val id: String
 ) : Parcelable
 
 @Parcelize

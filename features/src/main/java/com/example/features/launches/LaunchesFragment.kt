@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.features.databinding.FragmentLaunchesBinding
+import com.example.features.rockets.RocketDetailDialogFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -24,8 +25,10 @@ class LaunchesFragment : Fragment() {
 
     private val adapter by lazy {
         LaunchesAdapter(
-            onClick = {
+            onClick = {launches->
                 Toast.makeText(requireContext(), "Launches clicked", Toast.LENGTH_SHORT).show()
+                val bottomDialogFragment = LaunchesDetailDialogFragment(launches)
+                bottomDialogFragment.show(parentFragmentManager , "DetailDialog")
             }
         )
     }

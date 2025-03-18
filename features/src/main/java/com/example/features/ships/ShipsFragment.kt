@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.SearchView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
@@ -13,9 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionManager
-import com.example.features.R
 import com.example.features.databinding.FragmentShipsBinding
-import com.example.network.model.data.ShipsResponseItem
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,8 +25,9 @@ class ShipsFragment : Fragment() {
     private lateinit var binding: FragmentShipsBinding
     private val adapter by lazy {
         ShipsAdapter(
-            onClick = {
-                Toast.makeText(requireContext(),"ships",Toast.LENGTH_SHORT).show()
+            onClick = {response->
+                val bottomDialogFragment = ShipsDetailsDialogFragment(response)
+                bottomDialogFragment.show(parentFragmentManager,"dialogDetails")
             }
         )
     }
@@ -39,6 +38,8 @@ class ShipsFragment : Fragment() {
         setUpRecycler()
         setUpObserver()
         viewModel.fetchShips()
+         setUpSearchView()
+
     }
 
     override fun onCreateView(
@@ -74,7 +75,7 @@ class ShipsFragment : Fragment() {
                     renderLoading(uistate.isLoading)
 
                     uistate.ships.let {
-                        adapter.submitList(uistate.ships)
+                        adapter.submitFullList(uistate.ships)
 
                     }
 
@@ -83,5 +84,18 @@ class ShipsFragment : Fragment() {
 
         }
 
+    }
+    private fun setUpSearchView() {
+        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { adapter.filter(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { adapter.filter(it) }
+                return true
+            }
+        })
     }
 }

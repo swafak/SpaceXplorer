@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.navigation.safeargs)
+
 }
 apply {
     from("${rootDir}/shared.gradle")
@@ -63,5 +64,7 @@ dependencies {
     implementation(project(path = ":core:resources"))
     implementation(project(path = ":features"))
     implementation(project(path = ":core:network"))
+    implementation(project(path = ":core:data"))
+
 
 }

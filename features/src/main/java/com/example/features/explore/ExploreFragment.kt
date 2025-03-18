@@ -17,6 +17,7 @@ import androidx.transition.TransitionManager
 import com.example.features.databinding.FragmentExploreBinding
 import com.example.features.history.HistoryAdapter
 import com.example.features.launches.LaunchesAdapter
+import com.example.features.launches.LaunchesDetailDialogFragment
 import com.example.network.model.data.CompanyResponse
 import com.example.network.model.data.HistoryResponseItem
 import com.example.network.model.data.LaunchesResponse
@@ -36,8 +37,10 @@ class ExploreFragment : Fragment() {
 
     private val launchesAdapter by lazy {
         LaunchesAdapter(
-            onClick = {
+            onClick = {launches->
                 Toast.makeText(requireContext(), "Launches clicked", Toast.LENGTH_SHORT).show()
+                val bottomDialogFragment = LaunchesDetailDialogFragment(launches)
+                bottomDialogFragment.show(parentFragmentManager , "DetailDialog")
             }
         )
     }

@@ -1,6 +1,7 @@
 package com.example.network.model.data
 
 import android.os.Parcelable
+import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
 class ShipsResponse : ArrayList<ShipsResponseItem>()
@@ -10,22 +11,27 @@ data class ShipsResponseItem(
     val abs: Int?,
     val active: Boolean?,
     val `class`: Int?,
-    val home_port: String?,
-    val id: String?,
+    @Json(name = "home_port")
+    val homePort: String?,
+    val id: String,
     val image: String?,
     val imo: Int?,
     val latitude: Double?,
     val launches: List<String>?,
-    val legacy_id: String?,
+    @Json(name="legacy_id")
+    val legacyId: String?,
     val link: String?,
     val longitude: Double?,
-    val mass_kg: Int?,
-    val mass_lbs: Int?,
+    @Json(name = "mass_kg")
+    val massKg: Int?,
+    @Json(name = "mass_lbs")
+    val massLbs: Int?,
     val mmsi: Int?,
     val model: String?,
     val name: String?,
     val roles: List<String>?,
     val status: String?,
     val type: String?,
-    val year_built: Int?
+    @Json(name = "year_built")
+    val yearBuilt: Int?
 ): Parcelable

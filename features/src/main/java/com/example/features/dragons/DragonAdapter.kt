@@ -1,6 +1,7 @@
 package com.example.features.dragons
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,24 +12,33 @@ import com.example.features.databinding.DragonRecViewBinding
 import com.example.network.model.data.DragonResponse
 
 class DragonAdapter(
+//    private val onFavoriteClick: (String) -> Unit,
+    private val onFavoriteClick: (DragonResponse) -> Unit,
+    private val isFavorite: (String) -> Boolean
 
 ) : ListAdapter<DragonResponse, DragonAdapter.DragonViewHolder>(DragonDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DragonViewHolder {
         val binding = DragonRecViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return DragonViewHolder(binding)
+        return DragonViewHolder(binding, onFavoriteClick, isFavorite)
     }
-
 
     override fun onBindViewHolder(holder: DragonViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
 
-
-
+        holder.binding.favoriteIcon.setOnClickListener {
+            onFavoriteClick(item)
+            notifyItemChanged(position)
+        }
     }
 
-    class DragonViewHolder(val binding: DragonRecViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    class DragonViewHolder(
+        val binding: DragonRecViewBinding,
+//        private val onFavoriteClick: (String) -> Unit,
+        private val onFavoriteClick: (DragonResponse) -> Unit,
+        private val isFavorite: (String) -> Boolean)
+    : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: DragonResponse) {
             binding.apply{
@@ -38,13 +48,24 @@ class DragonAdapter(
                 capacity.text = item.crewCapacity.toString()
                 firstFlight.text = item.firstFlight.toString()
 
-
                 Glide.with(ImageLogo.context)
                     .load(item.flickrImages?.first())
                     .placeholder(R.drawable.baseline_rocket_24)
                     .into(ImageLogo)
 
+                updateFavoriteIcon(isFavorite(item.id))
+
+                favoriteIcon.setOnClickListener {
+                    onFavoriteClick(item)
+                    updateFavoriteIcon(!isFavorite(item.id))// Notify ViewModel
+                }
+
             }
+        }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+            val color = if (isFavorite) com.example.resources.R.color.blue else com.example.resources.R.color.white
+            binding.favoriteIcon.setColorFilter(ContextCompat.getColor(binding.root.context, color))
         }
     }
 
