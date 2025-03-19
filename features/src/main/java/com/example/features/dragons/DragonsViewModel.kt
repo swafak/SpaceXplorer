@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class DragonsViewModel(private val repository: DragonRepository) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(dragonUiState())
+    private val _uiState = MutableStateFlow(DragonUiState())
     val uiState = _uiState.asStateFlow()
 
     fun fetchDragon() {
@@ -33,7 +33,7 @@ class DragonsViewModel(private val repository: DragonRepository) : ViewModel() {
     }
 }
 
-data class dragonUiState(
+data class DragonUiState(
     val dragonInfo: List<DragonResponse>? = emptyList(),
     val isLoading: Boolean = true
 )

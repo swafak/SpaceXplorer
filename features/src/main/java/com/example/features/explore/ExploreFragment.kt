@@ -112,6 +112,8 @@ class ExploreFragment : Fragment() {
         binding.apply {
             TransitionManager.beginDelayedTransition(contentParent)
             loading.isVisible = isLoading
+//           shimmerLayout.isVisible = isLoading
+//           shimmerLayout.startShimmer()
             contentParent.isGone = isLoading
         }
     }
@@ -129,11 +131,8 @@ class ExploreFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collectLatest { uiState ->
-//                    when {
-//                       uiState.isLoading -> renderLoading(true)
 
                         renderLoading(uiState.isLoading)
-
                         uiState.companyResponse?.let { companyResult ->
                             binding.website.text = companyResult.links.website
                             binding.twitter.text = companyResult.links.twitter

@@ -14,12 +14,12 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(AppModule.module,
+            modules(
+//                AppModule.module,
                 FeatureModule.module,
                 NetworkModule.module,
                 CoreNetworkModule.module,
                 DataModule.module
-
                 )
         }
     }

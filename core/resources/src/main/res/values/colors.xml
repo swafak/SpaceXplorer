@@ -7,4 +7,5 @@
     <color name="orange">#fc3d21</color>
     <color name="blue">#0b3d91</color>
     <color name="grey">#808080</color>
+    <color name="shimmerColor">#808999</color>
 </resources>

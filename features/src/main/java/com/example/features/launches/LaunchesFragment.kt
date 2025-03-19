@@ -19,8 +19,6 @@ class LaunchesFragment : Fragment() {
 
     private lateinit var binding: FragmentLaunchesBinding
 
-    private val viewModel: LaunchesViewModel by viewModel()
-
     private val args by navArgs<LaunchesFragmentArgs>()
 
     private val adapter by lazy {

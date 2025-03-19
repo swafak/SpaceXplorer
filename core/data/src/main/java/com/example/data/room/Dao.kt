@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDragon(FavoriteDragon: DragonEntity )
+    suspend fun insertDragon(favoriteDragon: DragonEntity )
 
     @Query("SELECT * FROM FavDragon")
     fun getAllDragon(): LiveData<List<DragonEntity>>
@@ -21,7 +21,7 @@ interface Dao {
     suspend fun isFavoriteDragon(id: String): DragonEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRocket(FavRocket: RocketEntity )
+    suspend fun insertRocket(favRocket: RocketEntity )
 
     @Query("SELECT * FROM FavRocket")
     fun getAllRocket(): LiveData<List<RocketEntity>>

@@ -61,6 +61,8 @@ class ShipsFragment : Fragment() {
         binding.apply {
             TransitionManager.beginDelayedTransition(binding.root)
             loading.isVisible = isLoading
+//            shimmerLayout.isVisible = isLoading
+//            shimmerLayout.startShimmer()
             recycler.isGone = isLoading
         }
     }

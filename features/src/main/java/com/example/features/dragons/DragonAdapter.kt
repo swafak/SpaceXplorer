@@ -12,7 +12,7 @@ import com.example.features.databinding.DragonRecViewBinding
 import com.example.network.model.data.DragonResponse
 
 class DragonAdapter(
-//    private val onFavoriteClick: (String) -> Unit,
+
     private val onFavoriteClick: (DragonResponse) -> Unit,
     private val isFavorite: (String) -> Boolean
 
@@ -35,7 +35,6 @@ class DragonAdapter(
 
     class DragonViewHolder(
         val binding: DragonRecViewBinding,
-//        private val onFavoriteClick: (String) -> Unit,
         private val onFavoriteClick: (DragonResponse) -> Unit,
         private val isFavorite: (String) -> Boolean)
     : RecyclerView.ViewHolder(binding.root) {
@@ -57,7 +56,7 @@ class DragonAdapter(
 
                 favoriteIcon.setOnClickListener {
                     onFavoriteClick(item)
-                    updateFavoriteIcon(!isFavorite(item.id))// Notify ViewModel
+                    updateFavoriteIcon(!isFavorite(item.id)) /// TODO: Viewmodel
                 }
 
             }
