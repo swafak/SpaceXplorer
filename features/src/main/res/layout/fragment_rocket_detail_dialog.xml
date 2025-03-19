@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/company_fragment_appbar"
@@ -19,23 +19,25 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/Image"
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/black"
-                android:src="@drawable/spacex"
-                app:layout_collapseMode="parallax"/>
+
+                <ImageView
+                    android:id="@+id/Image"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@color/black"
+                    android:padding="10dp"
+                    android:src="@drawable/spacex"
+                    app:layout_collapseMode="parallax" />
+
                 <ImageButton
                     android:id="@+id/favoriteIcon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="bottom|end"
                     android:layout_margin="2dp"
-                    android:src="@android:drawable/btn_star_big_off"
                     android:background="@null"
-                    android:contentDescription="Favorite Icon"/>
+                    android:contentDescription="Favorite Icon"
+                    android:src="@android:drawable/btn_star_big_off" />
             </FrameLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -50,106 +52,107 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp">
+
             <TextView
                 android:id="@+id/description_text"
-                android:text="@string/details"
                 style="@style/TitleText"
                 android:padding="10dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/details"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                style="@style/normal_text"
                 android:id="@+id/description"
-                app:layout_constraintTop_toBottomOf="@id/description_text"
+                style="@style/normal_text"
+                android:paddingBottom="10dp"
                 android:text="@string/details"
                 app:layout_constraintStart_toStartOf="parent"
-                android:paddingBottom="10dp"/>
+                app:layout_constraintTop_toBottomOf="@id/description_text" />
 
             <TextView
-                android:text="@string/Wikipedia_"
-                style="@style/TitleText"
-                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/websiteText"
+                style="@style/TitleText"
+                android:text="@string/Wikipedia_"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description" />
 
             <TextView
-                style="@style/Italic_text"
                 android:id="@+id/website"
+                style="@style/Italic_text"
                 android:text="@string/Wikipedia"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/websiteText" />
 
             <TextView
                 android:id="@+id/height_text"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="@string/height_"
                 style="@style/TitleText"
+                android:text="@string/height_"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/website" />
 
             <TextView
                 android:id="@+id/height"
-                app:layout_constraintStart_toEndOf="@id/height_text"
-                android:text="@string/height"
                 style="@style/Italic_text"
+                android:text="@string/height"
+                app:layout_constraintStart_toEndOf="@id/height_text"
                 app:layout_constraintTop_toBottomOf="@id/website" />
 
             <TextView
-                style="@style/TitleText"
                 android:id="@+id/mass_text"
+                style="@style/TitleText"
                 android:text="@string/Mass_"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/height" />
 
             <TextView
+                android:id="@+id/mass"
                 style="@style/Italic_text"
                 android:text="@string/Mass"
-                android:id="@+id/mass"
                 app:layout_constraintStart_toEndOf="@+id/mass_text"
                 app:layout_constraintTop_toBottomOf="@id/height" />
 
             <TextView
+                android:id="@+id/first_flight_text"
                 style="@style/TitleText"
-                app:layout_constraintTop_toBottomOf="@id/mass"
-                app:layout_constraintStart_toStartOf="parent"
                 android:text="@string/first_flight_"
-                android:id="@+id/first_flight_text" />
-
-            <TextView
-                style="@style/normal_text"
-                app:layout_constraintStart_toEndOf="@id/first_flight_text"
-                android:text="@string/first_flight"
-                android:id="@+id/first_flight"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/mass" />
 
             <TextView
-                style="@style/TitleText"
-                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/first_flight"
+                style="@style/normal_text"
+                android:text="@string/first_flight"
+                app:layout_constraintStart_toEndOf="@id/first_flight_text"
+                app:layout_constraintTop_toBottomOf="@id/mass" />
+
+            <TextView
                 android:id="@+id/successRatePc_text"
+                style="@style/TitleText"
                 android:text="@string/successRatePct_"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/first_flight" />
 
             <TextView
+                android:id="@+id/successRatePct"
                 style="@style/normal_text"
-                app:layout_constraintStart_toEndOf="@id/successRatePc_text"
-                app:layout_constraintTop_toBottomOf="@id/first_flight"
                 android:text="@string/successRatePct"
-                android:id="@+id/successRatePct" />
+                app:layout_constraintStart_toEndOf="@id/successRatePc_text"
+                app:layout_constraintTop_toBottomOf="@id/first_flight" />
 
             <TextView
+                android:id="@+id/active_text"
                 style="@style/TitleText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/successRatePc_text"
                 android:text="@string/Active_"
-                android:id="@+id/active_text" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/successRatePc_text" />
 
             <TextView
+                android:id="@+id/active"
                 style="@style/normal_text"
-                app:layout_constraintStart_toEndOf="@id/active_text"
-                app:layout_constraintTop_toBottomOf="@id/successRatePc_text"
                 android:text="@string/Active"
-                android:id="@+id/active" />
+                app:layout_constraintStart_toEndOf="@id/active_text"
+                app:layout_constraintTop_toBottomOf="@id/successRatePc_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

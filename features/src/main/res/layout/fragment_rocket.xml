@@ -15,11 +15,16 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RocketRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/RocketRecycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_bar"
-        app:layout_constraintStart_toStartOf="parent"/>
+        tools:itemCount="2"
+        tools:listitem="@layout/rocket_rec_view"
+
+        />
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loading"
         android:layout_width="48dp"

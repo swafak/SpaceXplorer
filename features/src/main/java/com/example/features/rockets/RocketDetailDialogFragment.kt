@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.example.common.BottomDialogFragment
 import com.example.data.room.FavoriteDB
 import com.example.data.room.RocketEntity
@@ -62,13 +63,15 @@ class RocketDetailDialogFragment(private val response: RocketsResponse) : Bottom
             Log.d("IMAGE", "SEE: ${response.flickrImages?.first()}")
 //
 //            viewLifecycleOwner.lifecycleScope.launch{
-//                Glide.with(dialog?.context ?: requireContext())
-//                    .load(response.flickrImages?.first())
-//                    .fitCenter()
-//                    .placeholder(R.drawable.baseline_rocket_24)
-////                .dontAnimate()
-////                .error(R.drawable.baseline_rocket_24)
-//                    .into(Image)
+                Glide.with(Image)
+                    .load(response.flickrImages?.first())
+                    .fitCenter()
+                    .placeholder(R.drawable.baseline_rocket_24)
+//                .dontAnimate()
+//                .error(R.drawable.baseline_rocket_24)
+                    .into(Image)
+
+
 
 //            }
 

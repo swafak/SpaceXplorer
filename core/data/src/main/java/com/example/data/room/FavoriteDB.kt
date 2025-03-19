@@ -25,7 +25,6 @@ abstract class FavoriteDB : RoomDatabase(){
                 INSTANCE = instance
                 instance
             }
-
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.example.common.BottomDialogFragment
 import com.example.features.R
 import com.example.features.databinding.FragmentLaunchesDetailDialogBinding
@@ -30,6 +31,10 @@ class LaunchesDetailDialogFragment(private val response: LaunchesResponse) : Bot
         binding.apply {
             description.text = response.details
             website.text = response.links?.wikipedia
+            Glide.with(Image.context)
+                .load(response.links?.patch?.small)
+                .placeholder(R.drawable.baseline_rocket_24)
+                .into(Image)
 
         }
     }

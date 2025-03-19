@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.example.common.BottomDialogFragment
 import com.example.data.room.FavoriteDB
 import com.example.data.room.ShipsEntity
@@ -53,6 +54,11 @@ class ShipsDetailsDialogFragment(private val response: ShipsResponseItem) :
             "${getString(com.example.resources.R.string.year)}${response.yearBuilt.toString()}".also { year.text = it }
             "${getString(com.example.resources.R.string.model)}${response.model}".also { model.text = it }
             Launches.text = response.launches.toString()
+
+            Glide.with(Image.context)
+                .load(response.image)
+                .placeholder(R.drawable.baseline_rocket_24)
+                .into(Image)
 
         }
     }

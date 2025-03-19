@@ -18,10 +18,10 @@
     <item
         android:id="@+id/navigation_ships"
         android:title="@string/Ships"
-        android:icon="@drawable/baseline_rocket_24"/>
+        android:icon="@drawable/ships"/>
     <item
         android:id="@+id/navigation_favorites"
-        android:icon="@drawable/baseline_rocket_24"
+        android:icon="@drawable/ships"
         android:title="@string/Favorites"
       />
 
