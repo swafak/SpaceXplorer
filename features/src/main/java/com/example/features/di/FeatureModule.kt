@@ -1,7 +1,6 @@
 package com.example.features.di
 
 import com.example.data.room.DbRepository
-import com.example.features.company.CompanyViewModel
 import com.example.features.dragons.DragonsViewModel
 import com.example.features.explore.ExploreViewModel
 import com.example.features.favorites.FavoritesViewModel
@@ -20,7 +19,7 @@ import org.koin.dsl.module
 object FeatureModule {
     val module = module {
         single { CompanyRepository(get()) }
-        viewModel { CompanyViewModel(get()) }
+//        viewModel { CompanyViewModel(get()) }
         single { LaunchesRepository(get()) }
 
         single { HistoryRepository(get()) }

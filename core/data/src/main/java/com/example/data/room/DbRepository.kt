@@ -2,6 +2,7 @@ package com.example.data.room
 
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class DbRepository(private val Dao: Dao) {
@@ -19,7 +20,7 @@ class DbRepository(private val Dao: Dao) {
         return Dao.isFavoriteDragon(id) != null
     }
 
-    fun getFavoriteDragon(): LiveData<List<DragonEntity>>{
+    fun getFavoriteDragon(): Flow<List<DragonEntity>> {
         return Dao.getAllDragon()
     }
     suspend fun insertRocket(favEntity: RocketEntity){
@@ -36,7 +37,7 @@ class DbRepository(private val Dao: Dao) {
         return Dao.isFavoriteRocket(id) != null
     }
 
-    fun getFavoriteRocket(): LiveData<List<RocketEntity>>{
+    fun getFavoriteRocket(): Flow<List<RocketEntity>>{
         return Dao.getAllRocket()
     }
 
@@ -51,7 +52,7 @@ class DbRepository(private val Dao: Dao) {
     suspend fun isFavoriteShip(id: String): Boolean{
         return Dao.isFavoriteShip(id) !=null
     }
-    fun getFavoriteShip(): LiveData<List<ShipsEntity>>{
+    fun getFavoriteShip(): Flow<List<ShipsEntity>>{
         return Dao.getAllShips()
     }
 }

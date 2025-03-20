@@ -91,12 +91,12 @@ class ShipsDetailsDialogFragment(private val response: ShipsResponseItem) :
 
     }
     private fun removeFromFavorite(item: ShipsResponseItem){
-        item.id?.let{
+        item.id.let{
             viewModel.deleteShip(it)
         }
     }
     private fun toggleFavorite(item: ShipsResponseItem) {
-        item.id?.let {
+        item.id.let {
             viewModel.isFavoriteShip(it).observe(viewLifecycleOwner, Observer { isFavorite ->
                 if (isFavorite) {
                     Toast.makeText(context, "Removed from favorite", Toast.LENGTH_SHORT).show()

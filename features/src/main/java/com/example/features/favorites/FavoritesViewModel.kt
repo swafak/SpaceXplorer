@@ -8,20 +8,18 @@ import com.example.data.room.DbRepository
 import com.example.data.room.DragonEntity
 import com.example.data.room.RocketEntity
 import com.example.data.room.ShipsEntity
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
 
-    val favoriteRocket: LiveData<List<RocketEntity>> = liveData {
-        emitSource(repository.getFavoriteRocket())
-    }
-    val favoriteShip: LiveData<List<ShipsEntity>> = liveData {
-        emitSource(repository.getFavoriteShip())
-    }
-    val favDragon: LiveData<List<DragonEntity>> = liveData {
-        emitSource(repository.getFavoriteDragon())
-    }
+    val favoriteRocket: Flow<List<RocketEntity>> = repository.getFavoriteRocket()
+
+    val favoriteShip: Flow<List<ShipsEntity>> = repository.getFavoriteShip()
+
+    val favDragon: Flow<List<DragonEntity>> = repository.getFavoriteDragon()
+
     fun insertDragon(favDragon : DragonEntity){
         viewModelScope.launch {
             repository.insertDragon(favDragon)
@@ -48,11 +46,6 @@ class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
             repository.insertRocket(favRocketEntity)
         }
     }
-
-//    fun isFavDragon(id: String) = liveData {
-//        emit(repository.isFavoriteDragon(id))
-//
-//    }
     fun isFavDragon(id: String): Boolean {
         return runBlocking { repository.isFavoriteDragon(id) } // Fetch result in a blocking manner
     }
@@ -70,18 +63,4 @@ class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
             repository.deleteRocketById(id)
         }
     }
-
-    fun GetAllDragon(favDragon: DragonEntity){
-        viewModelScope.launch {
-            repository.getFavoriteDragon()
-        }
-    }
-//    fun getAllRocket(favRocketEntity: RocketEntity){
-//        viewModelScope.launch {
-//            repository.getFavoriteRocket()
-//        }
-//    }
-
-
-
 }

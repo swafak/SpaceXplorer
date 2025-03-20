@@ -6,10 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.features.databinding.FragmentShipsBinding
 import com.example.features.favorites.FavoritesViewModel
 import com.example.features.ships.ShipsDetailsDialogFragment
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -48,9 +53,13 @@ class FavoriteShipsFragment : Fragment() {
         binding.recycler.layoutManager = GridLayoutManager(requireContext(), 2)
 
     }
-    private fun setUpObserver(){
-        viewModel.favoriteShip.observe(viewLifecycleOwner){response->
-            adapter.submitFullList(response)
+    private fun setUpObserver() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.favoriteShip.collectLatest { response ->
+                    adapter.submitFullList(response)
+                }
+            }
         }
     }
 

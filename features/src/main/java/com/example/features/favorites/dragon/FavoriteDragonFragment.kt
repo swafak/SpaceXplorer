@@ -5,9 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.features.databinding.FragmentFavoriteDragonBinding
 import com.example.features.favorites.FavoritesViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteDragonFragment : Fragment() {
@@ -35,13 +40,17 @@ class FavoriteDragonFragment : Fragment() {
     return binding.root
     }
 
-    private fun setUpData(){
+    private fun setUpData() {
         binding.Recycler.adapter = adapter
         binding.Recycler.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.favDragon.observe(viewLifecycleOwner) { response ->
-            adapter.submitList(response)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.favDragon.collect { response ->
+                    adapter.submitList(response)
+                }
+            }
+
         }
     }
-
-}
+        }

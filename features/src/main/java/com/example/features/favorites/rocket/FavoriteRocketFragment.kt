@@ -6,9 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.features.databinding.FragmentFavoriteRocketBinding
 import com.example.features.favorites.FavoritesViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteRocketFragment : Fragment() {
@@ -40,9 +45,12 @@ class FavoriteRocketFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.favoriteRocket.observe(viewLifecycleOwner) { response ->
-            adapter.submitFullList(response)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.favoriteRocket.collectLatest { response ->
+                    adapter.submitFullList(response)
+                }
+            }
         }
     }
-
 }

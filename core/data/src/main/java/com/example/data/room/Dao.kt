@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface Dao {
@@ -12,7 +13,7 @@ interface Dao {
     suspend fun insertDragon(favoriteDragon: DragonEntity )
 
     @Query("SELECT * FROM FavDragon")
-    fun getAllDragon(): LiveData<List<DragonEntity>>
+    fun getAllDragon(): Flow<List<DragonEntity>>
 
     @Query("DELETE FROM FavDragon WHERE id = :id")
     suspend fun deleteDragonById(id: String)
@@ -24,7 +25,7 @@ interface Dao {
     suspend fun insertRocket(favRocket: RocketEntity )
 
     @Query("SELECT * FROM FavRocket")
-    fun getAllRocket(): LiveData<List<RocketEntity>>
+    fun getAllRocket(): Flow<List<RocketEntity>>
 
     @Query("DELETE FROM FavRocket WHERE id = :id")
     suspend fun deleteRocketById(id: String)
@@ -36,7 +37,7 @@ interface Dao {
     suspend fun insertShips(favoriteShips: ShipsEntity)
 
     @Query("SELECT * FROM FavShips")
-    fun getAllShips(): LiveData<List<ShipsEntity>>
+    fun getAllShips(): Flow<List<ShipsEntity>>
 
     @Query("DELETE FROM FavShips WHERE id = :id")
     suspend fun deleteShips(id: String)
