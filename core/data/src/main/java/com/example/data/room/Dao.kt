@@ -43,7 +43,7 @@ interface Dao {
     suspend fun deleteShips(id: String)
 
     @Query("SELECT * FROM FavShips WHERE id = :id LIMIT 1")
-    suspend fun isFavoriteShip(id: String) : ShipsEntity
+    suspend fun isFavoriteShip(id: String) : ShipsEntity?
 
 
 

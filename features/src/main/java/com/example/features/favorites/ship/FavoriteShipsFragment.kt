@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.features.databinding.FragmentShipsBinding
-import com.example.features.favorites.FavoritesViewModel
+import com.example.features.model.toShipsEntity
 import com.example.features.ships.ShipsDetailsDialogFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -21,27 +21,29 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class FavoriteShipsFragment : Fragment() {
 
     private lateinit var binding: FragmentShipsBinding
-    private val viewModel: FavoritesViewModel by viewModel()
+    private val viewModel: ShipsFavoriteViewModel by viewModel()
     private val adapter by lazy { FavoriteShipsAdapter(
-            onClick = {
-//                response->
-//                val bottomDialogFragment = ShipsDetailsDialogFragment(response)
-//                bottomDialogFragment.show(parentFragmentManager,"dialogDetails")
+            onClick = {response->
+                    val bottomDialogFragment = ShipsDetailsDialogFragment(response)
+                    bottomDialogFragment.show(parentFragmentManager,"dialogDetails")
+
         }
     ) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getFavShip()
         setUpObserver()
         setUpdata()
         setUpSearchView()
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentShipsBinding.inflate(inflater, container, false)
 
@@ -56,8 +58,10 @@ class FavoriteShipsFragment : Fragment() {
     private fun setUpObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.favoriteShip.collectLatest { response ->
-                    adapter.submitFullList(response)
+                viewModel.uiState.collectLatest {response->
+                    response.favoriteShip.let {ship->
+                        adapter.submitFullList(ship.toShipsEntity())
+                    }
                 }
             }
         }

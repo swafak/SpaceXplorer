@@ -3,6 +3,8 @@ package com.example.data.room
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
 class DbRepository(private val Dao: Dao) {
@@ -19,6 +21,11 @@ class DbRepository(private val Dao: Dao) {
     suspend fun isFavoriteDragon(id: String): Boolean{
         return Dao.isFavoriteDragon(id) != null
     }
+//    fun isFavoriteDragon(id: String):Flow<Boolean>{
+//        return flow{
+//            Dao.isFavoriteDragon(id) != null
+//        }
+//    }
 
     fun getFavoriteDragon(): Flow<List<DragonEntity>> {
         return Dao.getAllDragon()
@@ -33,9 +40,9 @@ class DbRepository(private val Dao: Dao) {
         Dao.deleteRocketById(id)
     }
 
-    suspend fun isFavoriteRocket(id: String): Boolean{
-        return Dao.isFavoriteRocket(id) != null
-    }
+    fun isFavoriteRocket(id: String):Flow<Boolean> = flow {
+        emit(Dao.isFavoriteRocket(id) != null)
+    }.flowOn(Dispatchers.IO)
 
     fun getFavoriteRocket(): Flow<List<RocketEntity>>{
         return Dao.getAllRocket()
@@ -49,8 +56,9 @@ class DbRepository(private val Dao: Dao) {
     suspend fun deleteShipById(id: String){
         return Dao.deleteShips(id)
     }
-    suspend fun isFavoriteShip(id: String): Boolean{
-        return Dao.isFavoriteShip(id) !=null
+   fun isFavoriteShip(id: String):Flow<Boolean> = flow {
+            emit(Dao.isFavoriteShip(id) !=null)
+
     }
     fun getFavoriteShip(): Flow<List<ShipsEntity>>{
         return Dao.getAllShips()

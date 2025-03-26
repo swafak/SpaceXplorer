@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionManager
 import com.example.features.databinding.FragmentShipsBinding
+import com.example.features.model.toShips
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,9 +26,9 @@ class ShipsFragment : Fragment() {
     private lateinit var binding: FragmentShipsBinding
     private val adapter by lazy {
         ShipsAdapter(
-            onClick = {response->
+            onClick = { response ->
                 val bottomDialogFragment = ShipsDetailsDialogFragment(response)
-                bottomDialogFragment.show(parentFragmentManager,"dialogDetails")
+                bottomDialogFragment.show(parentFragmentManager, "dialogDetails")
             }
         )
     }
@@ -77,7 +78,7 @@ class ShipsFragment : Fragment() {
                     renderLoading(uistate.isLoading)
 
                     uistate.ships.let {
-                        adapter.submitFullList(uistate.ships)
+                        adapter.submitFullList(uistate.ships.toShips())
 
                     }
 

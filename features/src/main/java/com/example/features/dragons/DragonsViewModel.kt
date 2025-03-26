@@ -15,7 +15,7 @@ class DragonsViewModel(private val repository: DragonRepository) : ViewModel() {
     val uiState = _uiState.asStateFlow()
 
     fun fetchDragon() {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             val response =  repository.getDragonInfo()
             if(response.isEmpty()){
                 _uiState.update {

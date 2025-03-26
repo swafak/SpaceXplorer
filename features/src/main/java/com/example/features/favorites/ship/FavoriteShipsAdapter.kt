@@ -9,16 +9,17 @@ import com.bumptech.glide.Glide
 import com.example.data.room.ShipsEntity
 import com.example.features.R
 import com.example.features.databinding.LaunchesRecViewBinding
+import com.example.features.model.Ship
 import com.example.network.model.data.ShipsResponseItem
 
 class FavoriteShipsAdapter (
-    private val onClick: (ShipsEntity) -> Unit
-) : ListAdapter<ShipsEntity, FavoriteShipsAdapter.ShipsViewHolder>(ShipsViewHolder.ShipsDiffCallback()) {
+    private val onClick: (Ship) -> Unit
+) : ListAdapter<Ship, FavoriteShipsAdapter.ShipsViewHolder>(ShipsViewHolder.ShipsDiffCallback()) {
 
 
-    private var originalList: List<ShipsEntity> = emptyList()
+    private var originalList: List<Ship> = emptyList()
 
-    fun submitFullList(list: List<ShipsEntity>) {
+    fun submitFullList(list: List<Ship>) {
         originalList = list
         submitList(list)
     }
@@ -45,10 +46,10 @@ class FavoriteShipsAdapter (
 
     }
 
-    class ShipsViewHolder(val binding: LaunchesRecViewBinding,  private val onClick: (ShipsEntity) -> Unit) :
+    class ShipsViewHolder(val binding: LaunchesRecViewBinding,  private val onClick: (Ship) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ShipsEntity) {
+        fun bind(item: Ship) {
             binding.apply {
                 Name.text = item.name
                 date.text = item.type
@@ -66,17 +67,17 @@ class FavoriteShipsAdapter (
             }
         }
 
-        class ShipsDiffCallback : DiffUtil.ItemCallback<ShipsEntity>() {
+        class ShipsDiffCallback : DiffUtil.ItemCallback<Ship>() {
             override fun areItemsTheSame(
-                oldItem: ShipsEntity,
-                newItem: ShipsEntity
+                oldItem: Ship,
+                newItem: Ship
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: ShipsEntity,
-                newItem: ShipsEntity
+                oldItem: Ship,
+                newItem: Ship
             ): Boolean {
                 return oldItem == newItem
             }

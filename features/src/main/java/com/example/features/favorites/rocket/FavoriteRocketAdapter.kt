@@ -6,16 +6,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.data.room.RocketEntity
 import com.example.features.R
 import com.example.features.databinding.RocketRecViewBinding
+import com.example.features.model.Rocket
 
-class FavoriteRocketAdapter(private val onClick : (RocketEntity) -> Unit
-) : ListAdapter<RocketEntity, FavoriteRocketAdapter.RocketViewHolder>(RocketDiffCallback()) {
+class FavoriteRocketAdapter(private val onClick : (Rocket) -> Unit
+) : ListAdapter<Rocket, FavoriteRocketAdapter.RocketViewHolder>(RocketDiffCallback()) {
 
-    private var originalList: List<RocketEntity> = emptyList()
+    private var originalList: List<Rocket> = emptyList()
 
-    fun submitFullList(list: List<RocketEntity>) {
+    fun submitFullList(list: List<Rocket>) {
         originalList = list
         submitList(list)
     }
@@ -48,7 +48,7 @@ class FavoriteRocketAdapter(private val onClick : (RocketEntity) -> Unit
     class RocketViewHolder(val binding: RocketRecViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: RocketEntity) {
+        fun bind(item: Rocket) {
             binding.apply {
                 Name.text = item.name
                 Glide.with(Image1.context)
@@ -70,14 +70,14 @@ class FavoriteRocketAdapter(private val onClick : (RocketEntity) -> Unit
         }
     }
 
-    class RocketDiffCallback : DiffUtil.ItemCallback<RocketEntity>() {
-        override fun areItemsTheSame(oldItem: RocketEntity, newItem: RocketEntity): Boolean {
+    class RocketDiffCallback : DiffUtil.ItemCallback<Rocket>() {
+        override fun areItemsTheSame(oldItem: Rocket, newItem: Rocket): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: RocketEntity,
-            newItem: RocketEntity
+            oldItem: Rocket,
+            newItem: Rocket
         ): Boolean {
             return oldItem == newItem
         }

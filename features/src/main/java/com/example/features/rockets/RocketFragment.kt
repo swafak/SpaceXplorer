@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.example.features.databinding.FragmentRocketBinding
+import com.example.features.model.toRockets
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -27,7 +28,9 @@ class RocketFragment : Fragment() {
     private val adapter by lazy {
         RocketAdapter(
             onClick = { rocket ->
-                val bottomDialogFragment = RocketDetailDialogFragment(rocket)
+                val bottomDialogFragment = RocketDetailDialogFragment(
+                    rocket
+                )
                 bottomDialogFragment.show(parentFragmentManager , "RocketDetailDialog")
             }
         )
@@ -41,13 +44,9 @@ class RocketFragment : Fragment() {
         setUpObserver()
         setUpSearchView()
 
+        viewModel.fetchRockets()
 
-            viewModel.fetchRockets()
-
-
-
-
-    }
+   }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,10 +77,9 @@ class RocketFragment : Fragment() {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 viewModel.uiState.collectLatest { uiState->
-
                     renderLoading(uiState.isLoading)
                     uiState.rocketData.let {
-                        adapter.submitFullList(uiState.rocketData)
+                        adapter.submitFullList(uiState.rocketData.toRockets())
                     }
                 }
             }

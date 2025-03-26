@@ -37,6 +37,8 @@ class ExploreViewModel(
             val launches = async { fetchLaunches() }.await()
             val companyInfo = async { fetchCompanyInfo() }.await()
             val history = async { fetchHistory() }.await()
+
+
 //            val launches=launchesDeferred.await()
 //            val companyInfo=companyInfoDeferred.await()
             _uiState.update {

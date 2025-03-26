@@ -63,4 +63,7 @@ dependencies {
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     implementation(libs.moshi)
+    implementation(libs.sqlite)
+    implementation(libs.sqlcipher)
+    implementation(libs.androidx.security.crypto)
 }

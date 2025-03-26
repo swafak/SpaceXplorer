@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.features.R
 import com.example.features.databinding.LaunchesRecViewBinding
-import com.example.network.model.data.ShipsResponseItem
+import com.example.features.model.Ship
 
 class ShipsAdapter (
-    private val onClick: (ShipsResponseItem) -> Unit
-    ) : ListAdapter<ShipsResponseItem, ShipsAdapter.ShipsViewHolder>(ShipsViewHolder.ShipsDiffCallback()) {
+    private val onClick: (Ship) -> Unit
+    ) : ListAdapter<Ship, ShipsAdapter.ShipsViewHolder>(ShipsViewHolder.ShipsDiffCallback()) {
 
-    private var originalList: List<ShipsResponseItem> = emptyList()
+    private var originalList: List<Ship> = emptyList()
 
-    fun submitFullList(list: List<ShipsResponseItem>) {
+    fun submitFullList(list: List<Ship>) {
         originalList = list
         submitList(list)
     }
@@ -43,10 +43,10 @@ class ShipsAdapter (
 
         }
 
-        class ShipsViewHolder(val binding: LaunchesRecViewBinding,  private val onClick: (ShipsResponseItem) -> Unit) :
+        class ShipsViewHolder(val binding: LaunchesRecViewBinding,  private val onClick: (Ship) -> Unit) :
             RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(item: ShipsResponseItem) {
+            fun bind(item: Ship) {
                 binding.apply {
                     Name.text = item.name
                     date.text = item.type
@@ -64,17 +64,17 @@ class ShipsAdapter (
                 }
             }
 
-            class ShipsDiffCallback : DiffUtil.ItemCallback<ShipsResponseItem>() {
+            class ShipsDiffCallback : DiffUtil.ItemCallback<Ship>() {
                 override fun areItemsTheSame(
-                    oldItem: ShipsResponseItem,
-                    newItem: ShipsResponseItem
+                    oldItem: Ship,
+                    newItem:Ship
                 ): Boolean {
                     return oldItem.id == newItem.id
                 }
 
                 override fun areContentsTheSame(
-                    oldItem: ShipsResponseItem,
-                    newItem: ShipsResponseItem
+                    oldItem: Ship,
+                    newItem: Ship
                 ): Boolean {
                     return oldItem == newItem
                 }

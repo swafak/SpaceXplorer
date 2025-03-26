@@ -35,13 +35,6 @@ class DragonsFragment : Fragment() {
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-//        DB initialization
-        val database = FavoriteDB.getDatabase(requireContext())
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -21,7 +21,7 @@ class LaunchesDetailDialogFragment(private val response: LaunchesResponse) : Bot
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLaunchesDetailDialogBinding.inflate(inflater, container, false)
 
         return binding.root

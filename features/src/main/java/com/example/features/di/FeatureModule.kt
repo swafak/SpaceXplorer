@@ -3,7 +3,10 @@ package com.example.features.di
 import com.example.data.room.DbRepository
 import com.example.features.dragons.DragonsViewModel
 import com.example.features.explore.ExploreViewModel
+import com.example.features.favorites.FavoritesFragment
 import com.example.features.favorites.FavoritesViewModel
+import com.example.features.favorites.rocket.FavoriteRocketViewModel
+import com.example.features.favorites.ship.ShipsFavoriteViewModel
 import com.example.features.rockets.RocketViewModel
 import com.example.features.ships.ShipsViewModel
 import com.example.network.model.repository.CompanyRepository
@@ -35,6 +38,8 @@ object FeatureModule {
 
         single { DbRepository(get()) }
         viewModel { FavoritesViewModel(get()) }
+        viewModel { FavoriteRocketViewModel(get()) }
+        viewModel { ShipsFavoriteViewModel(get()) }
 
 
 

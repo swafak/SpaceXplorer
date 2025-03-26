@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 
+
 @Parcelize
 @Entity(tableName = "FavRocket")
 data class RocketEntity(

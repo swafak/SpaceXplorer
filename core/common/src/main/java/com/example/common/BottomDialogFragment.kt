@@ -20,12 +20,6 @@ abstract class BottomDialogFragment(
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(contentLayoutId, container, false)
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        dialog?.setOnShowListener {}
-//
-        return super.onCreateDialog(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

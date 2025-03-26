@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.features.databinding.HistoryRecViewBinding
 import com.example.network.model.data.HistoryResponseItem
 
-class HistoryAdapter(
-) : ListAdapter<HistoryResponseItem, HistoryAdapter.HistoryViewHolder>(HistoryDiffCallback()) {
+class HistoryAdapter : ListAdapter<HistoryResponseItem, HistoryAdapter.HistoryViewHolder>(HistoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val binding = HistoryRecViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)

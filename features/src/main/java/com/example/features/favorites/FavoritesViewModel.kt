@@ -1,6 +1,5 @@
 package com.example.features.favorites
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -8,59 +7,107 @@ import com.example.data.room.DbRepository
 import com.example.data.room.DragonEntity
 import com.example.data.room.RocketEntity
 import com.example.data.room.ShipsEntity
+import com.example.network.model.data.RocketsResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
 
-    val favoriteRocket: Flow<List<RocketEntity>> = repository.getFavoriteRocket()
+    private val _uiState: MutableStateFlow<favoriteUiState> = MutableStateFlow(favoriteUiState())
+    val uiState = _uiState.asStateFlow()
+
 
     val favoriteShip: Flow<List<ShipsEntity>> = repository.getFavoriteShip()
-
     val favDragon: Flow<List<DragonEntity>> = repository.getFavoriteDragon()
 
-    fun insertDragon(favDragon : DragonEntity){
+    fun insertDragon(favDragon: DragonEntity) {
         viewModelScope.launch {
             repository.insertDragon(favDragon)
         }
     }
-    fun insertShips(favShip: ShipsEntity){
+
+    fun insertShips(favShip: ShipsEntity) {
         viewModelScope.launch {
             repository.insertShips(favShip)
         }
     }
-    fun deleteShip(id: String){
+
+    fun deleteShip(id: String) {
         viewModelScope.launch {
             repository.deleteShipById(id)
         }
     }
-
+//
     fun isFavoriteShip(id: String)= liveData {
         emit(repository.isFavoriteShip(id))
 
     }
-
-    fun insertRocket(favRocketEntity: RocketEntity){
-        viewModelScope.launch {
-            repository.insertRocket(favRocketEntity)
-        }
-    }
-    fun isFavDragon(id: String): Boolean {
-        return runBlocking { repository.isFavoriteDragon(id) } // Fetch result in a blocking manner
-    }
-    fun isFavRocket(id: String)= liveData {
-        emit(repository.isFavoriteRocket(id))
+        fun isFavDragon(id: String): Boolean {
+        return runBlocking { repository.isFavoriteDragon(id) }
     }
 
-    fun deleteDragon(id: String){
+
+    fun getFavoriteShip(){
         viewModelScope.launch {
-            repository.deleteDragonById(id)
+            repository.getFavoriteShip().collectLatest { response->
+                _uiState.update {
+                    it.copy(
+                        favoriteShip = response
+                    )
+                }
+            }
         }
     }
-    fun deleteRocket(id: String){
+    fun getFavoriteDragon(){
         viewModelScope.launch {
-            repository.deleteRocketById(id)
+            repository.getFavoriteDragon().collectLatest { response->
+                _uiState.update {
+                    it.copy(
+                        favDragon = response
+                    )
+                }
+            }
         }
     }
-}
+
+//    fun getFavorite() {
+//        viewModelScope.launch {
+//            val rocket = repository.getFavoriteRocket()
+//            val ships = repository.getFavoriteShip()
+//            val dragon = repository.getFavoriteDragon()
+//            _uiState.update {
+//                it.copy(
+//                    favoriteRocket = rocket,
+//                    favoriteShip = ships,
+//                    favDragon = dragon,
+//                    isFavoriteState = true
+//                )
+//            }
+//        }
+
+
+        fun deleteDragon(id: String) {
+            viewModelScope.launch {
+                repository.deleteDragonById(id)
+            }
+        }
+
+        fun deleteRocket(id: String) {
+            viewModelScope.launch {
+                repository.deleteRocketById(id)
+            }
+        }
+    }
+
+data class favoriteUiState(
+    val favoriteRocket: List<RocketEntity> = emptyList(),
+    val favoriteShip:  List<ShipsEntity> = emptyList(),
+    val favDragon:  List<DragonEntity> = emptyList(),
+    val isLoading:  Boolean = false,
+    val isFavoriteState: Boolean = false
+)

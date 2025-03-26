@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 
 
 @Database(entities = [RocketEntity::class, DragonEntity::class, ShipsEntity::class], version = 1, exportSchema = false)
@@ -12,20 +14,25 @@ import androidx.room.TypeConverters
 abstract class FavoriteDB : RoomDatabase(){
     abstract fun Dao(): Dao
 
-    companion object{
-        @Volatile private var INSTANCE: FavoriteDB  ? = null
-
-        fun getDatabase(context: Context): FavoriteDB  {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    FavoriteDB ::class.java,
-                    "SpaceX-database"
-                ).build()
-                INSTANCE = instance
-                instance
-            }
-        }
-    }
+//    companion object{
+//        @Volatile private var INSTANCE: FavoriteDB  ? = null
+//
+//        fun getDatabase(context: Context): FavoriteDB  {
+//            return INSTANCE ?: synchronized(this) {
+////                val paraphraseByte = SQLiteDatabase.getBytes(paraphrase.toCharArray())
+////                val factory = SupportFactory(paraphraseByte)
+//                val instance = Room.databaseBuilder(
+//                    context.applicationContext,
+//                    FavoriteDB ::class.java,
+//                    "SpaceX-DBase"
+//                )
+////                    .openHelperFactory(factory)
+////                    .fallbackToDestructiveMigration()
+//                    .build()
+//                INSTANCE = instance
+//                instance
+//            }
+//        }
+//    }
 
 }
