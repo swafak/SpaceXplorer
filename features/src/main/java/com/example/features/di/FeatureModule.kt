@@ -5,6 +5,7 @@ import com.example.features.dragons.DragonsViewModel
 import com.example.features.explore.ExploreViewModel
 import com.example.features.favorites.FavoritesFragment
 import com.example.features.favorites.FavoritesViewModel
+import com.example.features.favorites.dragon.FavoriteDragonViewModel
 import com.example.features.favorites.rocket.FavoriteRocketViewModel
 import com.example.features.favorites.ship.ShipsFavoriteViewModel
 import com.example.features.rockets.RocketViewModel
@@ -40,8 +41,7 @@ object FeatureModule {
         viewModel { FavoritesViewModel(get()) }
         viewModel { FavoriteRocketViewModel(get()) }
         viewModel { ShipsFavoriteViewModel(get()) }
-
-
+        viewModel { FavoriteDragonViewModel(get()) }
 
     }
 

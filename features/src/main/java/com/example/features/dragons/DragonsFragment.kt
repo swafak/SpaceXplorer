@@ -12,11 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
-import com.example.data.room.DragonEntity
-import com.example.data.room.FavoriteDB
 import com.example.features.databinding.FragmentDragonsBinding
-import com.example.features.favorites.FavoritesViewModel
-import com.example.network.model.data.DragonResponse
+import com.example.features.favorites.dragon.FavoriteDragonViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,13 +22,18 @@ class DragonsFragment : Fragment() {
 
 
     private val viewModel: DragonsViewModel by viewModel()
-    private val favoritesViewModel : FavoritesViewModel by viewModel()
+    private val favoritesViewModel : FavoriteDragonViewModel by viewModel()
     private lateinit var binding: FragmentDragonsBinding
 
     private val adapter by lazy {
         DragonAdapter(
-            onFavoriteClick = { dragon -> toggleFavorite(dragon) },
-            isFavorite = { dragonId -> favoritesViewModel.isFavDragon(dragonId) } // ✅ Now returns a Boolean
+            onFavoriteClick = { dragon ->
+
+                favoritesViewModel.toggleFavorite(dragon)
+                favoritesViewModel.isFavDragon(dragon.id)
+            },
+            isFavorite ={("true").toBoolean()}
+
         )
     }
 
@@ -71,36 +73,21 @@ class DragonsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.uiState.collectLatest { uistate ->
+                viewModel.uiState.collectLatest {  state ->
 
-                    renderLoading(uistate.isLoading)
-                    uistate.dragonInfo.let {
-                        adapter.submitList(uistate.dragonInfo)
+                    renderLoading( state.isLoading)
+                     state.dragonInfo.let {
+                        adapter.submitList( state.dragonInfo)
                     }
                 }
+
+                    favoritesViewModel.uiState.collectLatest {response->
+                        response.isFavoriteState.let { _ ->
+                        }
+                    }
 
             }
         }
 
-    }
-    private fun toggleFavorite(item: DragonResponse) {
-        val entity = DragonEntity(
-            id = item.id,
-            name = item.name,
-            type = item.type,
-            active = item.active,
-            crewCapacity = item.crewCapacity,
-            flickrImages = item.flickrImages,
-            description = item.description,
-            wikipedia = item.wikipedia,
-            dryMassKg = item.dryMassKg,
-            firstFlight = item.firstFlight
-        )
-
-        if (favoritesViewModel.isFavDragon(item.id)) {
-            favoritesViewModel.deleteDragon(item.id)
-        } else {
-            favoritesViewModel.insertDragon(entity)
-        }
     }
 }

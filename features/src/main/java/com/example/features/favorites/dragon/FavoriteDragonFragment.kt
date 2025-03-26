@@ -23,11 +23,13 @@ class FavoriteDragonFragment : Fragment() {
             onClick = {}
         )
     }
-    private val viewModel : FavoritesViewModel by viewModel()
+    private val viewModel : FavoriteDragonViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        viewModel.getFavDragon()
         setUpData()
     }
     override fun onCreateView(
@@ -46,8 +48,12 @@ class FavoriteDragonFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.favDragon.collect { response ->
-                    adapter.submitList(response)
+                viewModel.uiState.collect { response ->
+                    response.favoriteDragon.let { dragon->
+                        adapter.submitList(dragon)
+
+                    }
+
                 }
             }
 

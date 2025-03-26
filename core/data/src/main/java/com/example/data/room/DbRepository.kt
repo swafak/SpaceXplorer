@@ -18,8 +18,8 @@ class DbRepository(private val Dao: Dao) {
         Dao.deleteDragonById(id)
     }
 
-    suspend fun isFavoriteDragon(id: String): Boolean{
-        return Dao.isFavoriteDragon(id) != null
+    fun isFavoriteDragon(id: String): Flow<Boolean> = flow {
+        Dao.isFavoriteDragon(id) != null
     }
 //    fun isFavoriteDragon(id: String):Flow<Boolean>{
 //        return flow{

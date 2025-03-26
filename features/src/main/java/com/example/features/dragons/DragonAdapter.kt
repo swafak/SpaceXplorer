@@ -14,8 +14,8 @@ import com.example.network.model.data.DragonResponse
 class DragonAdapter(
 
     private val onFavoriteClick: (DragonResponse) -> Unit,
+//    private val isFavorite: (DragonResponse) -> Boolean
     private val isFavorite: (String) -> Boolean
-
 ) : ListAdapter<DragonResponse, DragonAdapter.DragonViewHolder>(DragonDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DragonViewHolder {
@@ -29,14 +29,14 @@ class DragonAdapter(
 
         holder.binding.favoriteIcon.setOnClickListener {
             onFavoriteClick(item)
-            notifyItemChanged(position)
+//            notifyItemChanged(position)
         }
     }
 
     class DragonViewHolder(
         val binding: DragonRecViewBinding,
         private val onFavoriteClick: (DragonResponse) -> Unit,
-        private val isFavorite: (String) -> Boolean)
+        private val isFavorite: (String) -> Boolean    )
     : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: DragonResponse) {
@@ -56,7 +56,7 @@ class DragonAdapter(
 
                 favoriteIcon.setOnClickListener {
                     onFavoriteClick(item)
-                    updateFavoriteIcon(!isFavorite(item.id)) /// TODO: Viewmodel
+                    updateFavoriteIcon(!isFavorite(item.id))
                 }
 
             }

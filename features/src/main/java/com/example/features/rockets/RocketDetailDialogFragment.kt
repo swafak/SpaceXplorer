@@ -38,7 +38,6 @@ class RocketDetailDialogFragment(
         binding.favoriteIcon.setOnClickListener {
             viewModel.toggleFavoriteRocket(rocket.toRocketResponse())
 
-
         }
     }
 

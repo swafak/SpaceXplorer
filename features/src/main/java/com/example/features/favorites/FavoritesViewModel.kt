@@ -47,9 +47,9 @@ class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
         emit(repository.isFavoriteShip(id))
 
     }
-        fun isFavDragon(id: String): Boolean {
-        return runBlocking { repository.isFavoriteDragon(id) }
-    }
+//        fun isFavDragon(id: String): Flow<Boolean>=
+//    repository.isFavoriteDragon(id) }
+//    }
 
 
     fun getFavoriteShip(){
