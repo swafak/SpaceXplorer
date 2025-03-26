@@ -1,6 +1,7 @@
 package com.example.features.dragons
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,12 +29,14 @@ class DragonsFragment : Fragment() {
     private val adapter by lazy {
         DragonAdapter(
             onFavoriteClick = { dragon ->
-
                 favoritesViewModel.toggleFavorite(dragon)
                 favoritesViewModel.isFavDragon(dragon.id)
             },
-            isFavorite ={("true").toBoolean()}
-
+            isFavorite =
+            {("true").toBoolean()}
+//            {response ->
+//                Log.d("test", response)
+//                favoritesViewModel.uiState.value.favoriteDragon.any { it.id == response }            }
         )
     }
 
@@ -81,10 +84,15 @@ class DragonsFragment : Fragment() {
                     }
                 }
 
-                    favoritesViewModel.uiState.collectLatest {response->
-                        response.isFavoriteState.let { _ ->
-                        }
+            favoritesViewModel.uiState.collectLatest { state ->
+                // When favorites change, update the affected items
+                state.favoriteDragon.forEach { favorite ->
+                    val position = adapter.currentList.indexOfFirst { it.id == favorite.id }
+                    if (position >= 0) {
+                        adapter.notifyItemChanged(position)
                     }
+                }
+            }
 
             }
         }

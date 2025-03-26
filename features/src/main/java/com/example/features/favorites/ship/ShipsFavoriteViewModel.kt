@@ -1,6 +1,5 @@
 package com.example.features.favorites.ship
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.room.DbRepository
@@ -16,8 +15,6 @@ class ShipsFavoriteViewModel(private val repository: DbRepository) : ViewModel()
 
     private val _uiState: MutableStateFlow<favoriteUiState> = MutableStateFlow(favoriteUiState())
     val uiState = _uiState.asStateFlow()
-
-
 
     private fun insertShips(favoriteShip: ShipsEntity) {
         viewModelScope.launch {

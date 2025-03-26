@@ -1,6 +1,5 @@
 package com.example.data.room
 
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,11 +20,6 @@ class DbRepository(private val Dao: Dao) {
     fun isFavoriteDragon(id: String): Flow<Boolean> = flow {
         Dao.isFavoriteDragon(id) != null
     }
-//    fun isFavoriteDragon(id: String):Flow<Boolean>{
-//        return flow{
-//            Dao.isFavoriteDragon(id) != null
-//        }
-//    }
 
     fun getFavoriteDragon(): Flow<List<DragonEntity>> {
         return Dao.getAllDragon()

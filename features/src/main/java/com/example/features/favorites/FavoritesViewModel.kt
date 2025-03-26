@@ -7,14 +7,12 @@ import com.example.data.room.DbRepository
 import com.example.data.room.DragonEntity
 import com.example.data.room.RocketEntity
 import com.example.data.room.ShipsEntity
-import com.example.network.model.data.RocketsResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
 
@@ -42,19 +40,17 @@ class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
             repository.deleteShipById(id)
         }
     }
-//
-    fun isFavoriteShip(id: String)= liveData {
+
+    //
+    fun isFavoriteShip(id: String) = liveData {
         emit(repository.isFavoriteShip(id))
 
     }
-//        fun isFavDragon(id: String): Flow<Boolean>=
-//    repository.isFavoriteDragon(id) }
-//    }
 
 
-    fun getFavoriteShip(){
+    fun getFavoriteShip() {
         viewModelScope.launch {
-            repository.getFavoriteShip().collectLatest { response->
+            repository.getFavoriteShip().collectLatest { response ->
                 _uiState.update {
                     it.copy(
                         favoriteShip = response
@@ -63,9 +59,10 @@ class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
             }
         }
     }
-    fun getFavoriteDragon(){
+
+    fun getFavoriteDragon() {
         viewModelScope.launch {
-            repository.getFavoriteDragon().collectLatest { response->
+            repository.getFavoriteDragon().collectLatest { response ->
                 _uiState.update {
                     it.copy(
                         favDragon = response
@@ -91,23 +88,23 @@ class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
 //        }
 
 
-        fun deleteDragon(id: String) {
-            viewModelScope.launch {
-                repository.deleteDragonById(id)
-            }
-        }
-
-        fun deleteRocket(id: String) {
-            viewModelScope.launch {
-                repository.deleteRocketById(id)
-            }
+    fun deleteDragon(id: String) {
+        viewModelScope.launch {
+            repository.deleteDragonById(id)
         }
     }
 
+    fun deleteRocket(id: String) {
+        viewModelScope.launch {
+            repository.deleteRocketById(id)
+        }
+    }
+}
+
 data class favoriteUiState(
     val favoriteRocket: List<RocketEntity> = emptyList(),
-    val favoriteShip:  List<ShipsEntity> = emptyList(),
-    val favDragon:  List<DragonEntity> = emptyList(),
-    val isLoading:  Boolean = false,
+    val favoriteShip: List<ShipsEntity> = emptyList(),
+    val favDragon: List<DragonEntity> = emptyList(),
+    val isLoading: Boolean = false,
     val isFavoriteState: Boolean = false
 )

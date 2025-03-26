@@ -56,13 +56,14 @@ class DragonAdapter(
 
                 favoriteIcon.setOnClickListener {
                     onFavoriteClick(item)
-                    updateFavoriteIcon(!isFavorite(item.id))
+//                    updateFavoriteIcon(isFavorite(item.id))
+
                 }
 
             }
         }
 
-    private fun updateFavoriteIcon(isFavorite: Boolean) {
+           private fun updateFavoriteIcon(isFavorite: Boolean) {
             val color = if (isFavorite) com.example.resources.R.color.blue else com.example.resources.R.color.white
             binding.favoriteIcon.setColorFilter(ContextCompat.getColor(binding.root.context, color))
         }
@@ -77,4 +78,6 @@ class DragonAdapter(
             return oldItem == newItem
         }
     }
+
+
 }

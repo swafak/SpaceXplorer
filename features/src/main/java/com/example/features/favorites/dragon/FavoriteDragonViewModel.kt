@@ -1,10 +1,10 @@
 package com.example.features.favorites.dragon
 
-import com.example.data.room.DragonEntity
-import com.example.network.model.data.DragonResponse
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.room.DbRepository
+import com.example.data.room.DragonEntity
+import com.example.network.model.data.DragonResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -15,7 +15,6 @@ class FavoriteDragonViewModel(private val repository: DbRepository) : ViewModel(
 
     private val _uiState: MutableStateFlow<DragonUiState> = MutableStateFlow(DragonUiState())
     val uiState = _uiState.asStateFlow()
-
 
     private fun insertDragon(favoriteDragon: DragonEntity) {
         viewModelScope.launch {
@@ -65,7 +64,6 @@ class FavoriteDragonViewModel(private val repository: DbRepository) : ViewModel(
             deleteDragon(it)
             _uiState.update {
                 it.copy(isFavoriteState = false)
-
             }
         }
     }
@@ -80,7 +78,6 @@ class FavoriteDragonViewModel(private val repository: DbRepository) : ViewModel(
                 }
             }
         }
-
     }
 
     fun toggleFavorite(item: DragonResponse) {
@@ -91,11 +88,10 @@ class FavoriteDragonViewModel(private val repository: DbRepository) : ViewModel(
             addToFav(item)
         }
     }
-
-
 }
+
 data class DragonUiState(
     val favoriteDragon: List<DragonEntity> = emptyList(),
-    val isLoading :  Boolean = false,
+    val isLoading: Boolean = false,
     val isFavoriteState: Boolean = false
 )
