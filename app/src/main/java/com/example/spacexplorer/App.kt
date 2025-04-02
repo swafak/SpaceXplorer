@@ -12,11 +12,9 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-
         startKoin {
             androidContext(this@App)
             modules(
-//                AppModule.module,
                 FeatureModule.module,
                 NetworkModule.module,
                 CoreNetworkModule.module,
@@ -24,5 +22,4 @@ class App : Application() {
                 )
         }
     }
-
 }

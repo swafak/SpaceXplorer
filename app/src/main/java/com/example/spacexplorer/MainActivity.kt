@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -58,7 +57,6 @@ class MainActivity : AppCompatActivity() {
             navView.isGone()
             toolbar.isGone()
         }
-
     }
 
     fun showBottomNavAndToolBar() {
@@ -67,5 +65,4 @@ class MainActivity : AppCompatActivity() {
             toolbar.isVisible()
         }
     }
-
 }

@@ -6,6 +6,6 @@ object AppModule {
 
     val module = module{
 
-    }
 
+    }
 }

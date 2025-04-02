@@ -19,7 +19,6 @@ class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
     private val _uiState: MutableStateFlow<favoriteUiState> = MutableStateFlow(favoriteUiState())
     val uiState = _uiState.asStateFlow()
 
-
     val favoriteShip: Flow<List<ShipsEntity>> = repository.getFavoriteShip()
     val favDragon: Flow<List<DragonEntity>> = repository.getFavoriteDragon()
 

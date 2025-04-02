@@ -10,6 +10,7 @@ import com.example.features.R
 import com.example.features.databinding.DragonRecViewBinding
 
 import com.example.network.model.data.DragonResponse
+import kotlinx.coroutines.flow.Flow
 
 class DragonAdapter(
 
@@ -29,14 +30,15 @@ class DragonAdapter(
 
         holder.binding.favoriteIcon.setOnClickListener {
             onFavoriteClick(item)
-//            notifyItemChanged(position)
+            notifyItemChanged(position)
         }
     }
 
     class DragonViewHolder(
         val binding: DragonRecViewBinding,
         private val onFavoriteClick: (DragonResponse) -> Unit,
-        private val isFavorite: (String) -> Boolean    )
+        private val isFavorite: (String) -> Boolean
+       )
     : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: DragonResponse) {
@@ -63,7 +65,7 @@ class DragonAdapter(
             }
         }
 
-           private fun updateFavoriteIcon(isFavorite: Boolean) {
+        fun updateFavoriteIcon(isFavorite: Boolean) {
             val color = if (isFavorite) com.example.resources.R.color.blue else com.example.resources.R.color.white
             binding.favoriteIcon.setColorFilter(ContextCompat.getColor(binding.root.context, color))
         }
@@ -78,6 +80,4 @@ class DragonAdapter(
             return oldItem == newItem
         }
     }
-
-
 }

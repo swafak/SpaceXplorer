@@ -2,6 +2,7 @@ package com.example.data.room
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
@@ -18,7 +19,7 @@ class DbRepository(private val Dao: Dao) {
     }
 
     fun isFavoriteDragon(id: String): Flow<Boolean> = flow {
-        Dao.isFavoriteDragon(id) != null
+        emit( Dao.isFavoriteDragon(id) != null)
     }
 
     fun getFavoriteDragon(): Flow<List<DragonEntity>> {
@@ -37,6 +38,10 @@ class DbRepository(private val Dao: Dao) {
     fun isFavoriteRocket(id: String):Flow<Boolean> = flow {
         emit(Dao.isFavoriteRocket(id) != null)
     }.flowOn(Dispatchers.IO)
+        .catch {
+            e ->
+
+        }
 
     fun getFavoriteRocket(): Flow<List<RocketEntity>>{
         return Dao.getAllRocket()

@@ -40,6 +40,9 @@ class FavoriteDragonViewModel(private val repository: DbRepository) : ViewModel(
         }
     }
 
+    fun issFavDragon(id: String) = repository.isFavoriteDragon(id)
+
+
     private fun addToFav(item: DragonResponse) {
         val entity = DragonEntity(
             id = item.id,

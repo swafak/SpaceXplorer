@@ -35,7 +35,7 @@ class FavoriteShipsFragment : Fragment() {
 
         viewModel.getFavShip()
         setUpObserver()
-        setUpdata()
+        setupData()
         setUpSearchView()
 
     }
@@ -50,7 +50,7 @@ class FavoriteShipsFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpdata(){
+    private fun setupData(){
         binding.recycler.adapter = adapter
         binding.recycler.layoutManager = GridLayoutManager(requireContext(), 2)
 
@@ -80,5 +80,4 @@ class FavoriteShipsFragment : Fragment() {
             }
         })
     }
-
 }

@@ -55,10 +55,10 @@ class LaunchesAdapter(
                 date.text = item.dateUtc
 
 //                if (!imageUrl.isNullOrEmpty()) {
-                    Glide.with(ImageLogo.context)
-                        .load(item.links?.patch?.small)
-                        .placeholder(R.drawable.baseline_rocket_24)
-                        .into(ImageLogo)
+                Glide.with(ImageLogo.context)
+                    .load(item.links?.patch?.small)
+                    .placeholder(R.drawable.baseline_rocket_24)
+                    .into(ImageLogo)
                 ImageLogo.setOnClickListener {
                     onClick(item)
                 }

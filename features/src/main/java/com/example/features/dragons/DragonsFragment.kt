@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -23,27 +24,34 @@ class DragonsFragment : Fragment() {
 
 
     private val viewModel: DragonsViewModel by viewModel()
-    private val favoritesViewModel : FavoriteDragonViewModel by viewModel()
+    private val favoritesViewModel: FavoriteDragonViewModel by viewModel()
     private lateinit var binding: FragmentDragonsBinding
+
 
     private val adapter by lazy {
         DragonAdapter(
             onFavoriteClick = { dragon ->
-                favoritesViewModel.toggleFavorite(dragon)
                 favoritesViewModel.isFavDragon(dragon.id)
+                favoritesViewModel.toggleFavorite(dragon)
+                Toast.makeText(requireContext(), "clicked", Toast.LENGTH_SHORT).show()
+                Log.d("check", favoritesViewModel.uiState.value.isFavoriteState.toString())
             },
             isFavorite =
-            {("true").toBoolean()}
-//            {response ->
-//                Log.d("test", response)
-//                favoritesViewModel.uiState.value.favoriteDragon.any { it.id == response }            }
+
+//            {dragon->
+//                favoritesViewModel.isFavDragon(dragon)
+//            }
+            {
+                favoritesViewModel.uiState.value.isFavoriteState
+            }
+
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUprecycler()
+        setupRecycler()
         viewModel.fetchDragon()
         setUpObserver()
 
@@ -58,7 +66,7 @@ class DragonsFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUprecycler() {
+    private fun setupRecycler() {
 
         binding.Recycler.adapter = adapter
         binding.Recycler.layoutManager = LinearLayoutManager(requireContext())
@@ -76,26 +84,29 @@ class DragonsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.uiState.collectLatest {  state ->
+                viewModel.uiState.collectLatest { state ->
 
-                    renderLoading( state.isLoading)
-                     state.dragonInfo.let {
-                        adapter.submitList( state.dragonInfo)
+                    renderLoading(state.isLoading)
+                    state.dragonInfo.let {
+                        adapter.submitList(state.dragonInfo)
                     }
                 }
 
-            favoritesViewModel.uiState.collectLatest { state ->
-                // When favorites change, update the affected items
-                state.favoriteDragon.forEach { favorite ->
-                    val position = adapter.currentList.indexOfFirst { it.id == favorite.id }
-                    if (position >= 0) {
-                        adapter.notifyItemChanged(position)
+                favoritesViewModel.uiState.collectLatest { state ->
+
+//                adapter.notifyDataSetChanged()
+                    // When favorites change, update the affected items
+                    state.favoriteDragon.forEach { favorite ->
+                        val position = adapter.currentList.indexOfFirst { it.id == favorite.id }
+                        if (position >= 0) {
+                            adapter.notifyItemChanged(position)
+                        }
                     }
                 }
-            }
 
             }
         }
 
     }
 }
+
