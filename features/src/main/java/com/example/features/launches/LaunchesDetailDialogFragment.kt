@@ -26,7 +26,6 @@ class LaunchesDetailDialogFragment(private val response: LaunchesResponse) : Bot
 
         return binding.root
     }
-
     private fun setUpData(){
         binding.apply {
             description.text = response.details
@@ -35,9 +34,6 @@ class LaunchesDetailDialogFragment(private val response: LaunchesResponse) : Bot
                 .load(response.links?.patch?.small)
                 .placeholder(R.drawable.baseline_rocket_24)
                 .into(Image)
-
         }
     }
-
-
 }

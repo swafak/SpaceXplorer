@@ -18,20 +18,16 @@ class HistoryAdapter : ListAdapter<HistoryResponseItem, HistoryAdapter.HistoryVi
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
-
     }
 
     class HistoryViewHolder(val binding: HistoryRecViewBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(item: HistoryResponseItem) {
             binding.apply{
                 linkArticle.text = item.links.article
                 details.text = item.details
                 eventDate.text = item.eventDateUtc
                 articleTitle.text = item.title
-
             }
-
         }
     }
 

@@ -45,4 +45,19 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
+    implementation(composeBom)
+
+    // Core Compose UI
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+
+    // Material Design 3 components (buttons, cards, etc.)
+    implementation("androidx.compose.material3:material3")
+
+    // Lets Activities work with Compose
+    implementation("androidx.activity:activity-compose:1.8.2")
+
+    // Debug tools (live preview in Android Studio)
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }

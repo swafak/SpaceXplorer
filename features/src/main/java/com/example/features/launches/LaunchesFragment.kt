@@ -7,64 +7,56 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.features.databinding.FragmentLaunchesBinding
-import com.example.features.rockets.RocketDetailDialogFragment
+import com.example.features.model.toModel
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LaunchesFragment : Fragment() {
 
-    private lateinit var binding: FragmentLaunchesBinding
-
     private val args by navArgs<LaunchesFragmentArgs>()
+    private var launches by mutableStateOf(emptyList<com.example.features.model.Launch>())
 
-    private val adapter by lazy {
-        LaunchesAdapter(
-            onClick = {launches->
-                Toast.makeText(requireContext(), "Launches clicked", Toast.LENGTH_SHORT).show()
-                val bottomDialogFragment = LaunchesDetailDialogFragment(launches)
-                bottomDialogFragment.show(parentFragmentManager , "DetailDialog")
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                MaterialTheme {
+                    LaunchesScreen(launches = launches)
+                }
             }
-        )
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setUpData()
-        setUpSearchView()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLaunchesBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
-    private fun setUpData(){
-        binding.Recycler.adapter = adapter
-        binding.Recycler.layoutManager = GridLayoutManager(requireContext(), 3)
-
+    private fun setUpData() {
         lifecycleScope.launch {
-            adapter.submitFullList(args.LaunchesResponse.toList())
+            launches = args.LaunchesResponse.map { it.toModel() }
         }
     }
-    private fun setUpSearchView() {
-        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { adapter.filter(it) }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let { adapter.filter(it) }
-                return true
-            }
-        })
-    }
 }
+//    private fun setUpSearchView() {
+//        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                query?.let { adapter.filter(it) }
+//                return true
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                newText?.let { adapter.filter(it) }
+//                return true
+//            }
+//        })
+

@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.compose.compiler)
+
 }
 apply {
     from("${rootDir}/shared.gradle")
@@ -36,6 +38,7 @@ android {
     buildFeatures{
         dataBinding = true
         viewBinding = true
+        compose = true
     }
 }
 
@@ -52,6 +55,11 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.shimmer)
     implementation(libs.glide)
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.navigation.ui.ktx)
+    implementation(libs.androidx.foundation.layout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -59,7 +67,21 @@ dependencies {
     implementation(project(path = ":core:network"))
     implementation(project(path = ":core:common"))
     implementation(project(path = ":core:data"))
+    val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
+    implementation(composeBom)
 
     implementation("io.coil-kt:coil:2.7.0")
+    // Core Compose UI
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+
+    // Material Design 3 components (buttons, cards, etc.)
+    implementation("androidx.compose.material3:material3")
+
+    // Lets Activities work with Compose
+    implementation("androidx.activity:activity-compose:1.9.0")
+    // Debug tools (live preview in Android Studio)
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation("io.coil-kt.coil3:coil-compose:3.1.0")
 
 }

@@ -9,12 +9,10 @@ import com.bumptech.glide.Glide
 import com.example.features.R
 import com.example.features.databinding.LaunchesRecViewBinding
 import com.example.network.model.data.LaunchesResponse
-import com.example.network.model.data.RocketsResponse
 
 class LaunchesAdapter(
     private val onClick: (LaunchesResponse) -> Unit
 ) : ListAdapter<LaunchesResponse, LaunchesAdapter.LaunchesViewHolder>(LaunchesViewHolder.LaunchesDiffCallback()) {
-
     private var originalList : List<LaunchesResponse> = emptyList()
     fun submitFullList(list: List<LaunchesResponse>) {
         originalList = list
@@ -36,7 +34,6 @@ class LaunchesAdapter(
         return LaunchesViewHolder(binding,onClick)
     }
 
-
     override fun onBindViewHolder(holder: LaunchesViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
@@ -45,7 +42,6 @@ class LaunchesAdapter(
         }*/
 
     }
-
     class LaunchesViewHolder(val binding: LaunchesRecViewBinding,private val onClick: (LaunchesResponse) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
