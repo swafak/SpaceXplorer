@@ -2,6 +2,8 @@ package com.example.features.rockets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.model.Rocket
+import com.example.features.model.toRockets
 import com.example.network.model.data.RocketsResponse
 import com.example.network.model.repository.RocketRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +17,7 @@ class RocketViewModel(private val repository: RocketRepository) : ViewModel() {
 
     val uiState = _uiState.asStateFlow()
 
-    fun fetchRockets() {
+    fun fetchRockets1() {
         viewModelScope.launch {
             val response = repository.getRocketInfo()
             if (response.isEmpty()) {
@@ -34,11 +36,24 @@ class RocketViewModel(private val repository: RocketRepository) : ViewModel() {
             }
         }
     }
+    fun fetchRockets() {
+        viewModelScope.launch {
+            val response = repository.getRocketInfo()
+            _uiState.update {
+                it.copy(
+                    rocketData = response,
+                    rockets = response.toRockets(),
+                    isLoading = false
+                )
+            }
+        }
+    }
 
 }
 
 data class RocketUiState(
     val rocketData :List<RocketsResponse> =emptyList(),
-    val isLoading: Boolean = false
+    val rockets: List<Rocket> = emptyList(),
+    val isLoading: Boolean = true
 
 )

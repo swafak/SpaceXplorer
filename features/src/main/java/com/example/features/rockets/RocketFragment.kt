@@ -7,6 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
@@ -23,82 +27,32 @@ class RocketFragment : Fragment() {
 
     private val viewModel: RocketViewModel by viewModel()
 
-    private lateinit var binding: FragmentRocketBinding
-
-    private val adapter by lazy {
-        RocketAdapter(
-            onClick = { rocket ->
-                val bottomDialogFragment = RocketDetailDialogFragment(
-                    rocket
-                )
-                bottomDialogFragment.show(parentFragmentManager , "RocketDetailDialog")
-            }
-        )
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setUpRecycler()
-        setUpObserver()
-        setUpSearchView()
-
         viewModel.fetchRockets()
-
-   }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRocketBinding.inflate(inflater, container, false)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                MaterialTheme {
+                    val uiState by viewModel.uiState.collectAsState()
 
-        return binding.root
-    }
-
-    private fun setUpRecycler(){
-
-        binding.RocketRecycler.adapter = adapter
-        binding.RocketRecycler.layoutManager = LinearLayoutManager(requireContext())
-
-    }
-    private fun renderLoading(isLoading: Boolean) {
-        binding.apply {
-            TransitionManager.beginDelayedTransition(binding.root)
-            loading.isVisible = isLoading
-            RocketRecycler.isGone = isLoading
-        }
-    }
-
-    private fun setUpObserver(){
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                viewModel.uiState.collectLatest { uiState->
-                    renderLoading(uiState.isLoading)
-                    uiState.rocketData.let {
-                        adapter.submitFullList(uiState.rocketData.toRockets())
-                    }
+                    RocketsScreen(
+                        rockets = uiState.rockets,
+                        isLoading = uiState.isLoading,
+                        onRocketClick = { rocket ->
+                            RocketDetailDialogFragment(rocket)
+                                .show(parentFragmentManager, "RocketDetailDialog")
+                        }
+                    )
                 }
             }
-
         }
-
     }
-    private fun setUpSearchView() {
-        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { adapter.filter(it) }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let { adapter.filter(it) }
-                return true
-            }
-        })
-    }
-
 }
+
+
