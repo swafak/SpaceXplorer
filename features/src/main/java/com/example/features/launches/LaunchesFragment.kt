@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
-import android.widget.Toast
+
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +43,15 @@ class LaunchesFragment : Fragment() {
     private fun setUpData() {
         lifecycleScope.launch {
             launches = args.LaunchesResponse.map { it.toModel() }
+        }
+    }
+    private fun filterLaunches(query: String) {
+        launches = if (query.isEmpty()) {
+            launches
+        } else {
+            launches.filter {
+                it.name.contains(query, ignoreCase = true)
+            }
         }
     }
 }

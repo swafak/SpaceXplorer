@@ -90,6 +90,10 @@ dependencies {
     // Debug tools (live preview in Android Studio)
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+    // Needed for loading images from network URLs with Coil 3
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.1.0")
+    implementation(libs.androidx.compose.runtime)
+    implementation("com.airbnb.android:lottie-compose:6.0.0")
 
 
 }

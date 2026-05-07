@@ -2,6 +2,7 @@ package com.example.features.model
 
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.network.model.data.LaunchesResponse
 
@@ -29,6 +30,6 @@ fun formatDate(dateUtc: String): String {
             .withZone(java.time.ZoneId.systemDefault())
         formatter.format(input)
     } catch (e: Exception) {
-        dateUtc  // if parsing fails, just show the raw string
+        dateUtc
     }
 }

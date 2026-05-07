@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.room)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.compose.compiler)
 
 }
 apply {

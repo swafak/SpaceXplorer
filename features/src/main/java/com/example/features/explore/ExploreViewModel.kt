@@ -2,6 +2,10 @@ package com.example.features.explore
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.model.History
+import com.example.features.model.Launch
+import com.example.features.model.toModel
+import com.example.features.model.toUiModel
 import com.example.network.model.data.CompanyResponse
 import com.example.network.model.data.HistoryResponseItem
 import com.example.network.model.data.LaunchesResponse
@@ -33,19 +37,24 @@ class ExploreViewModel(
 
     fun getData(){
         setLoading()
-        viewModelScope.launch {
-            val launches = async { fetchLaunches() }.await()
-            val companyInfo = async { fetchCompanyInfo() }.await()
-            val history = async { fetchHistory() }.await()
+        viewModelScope.launch (handler){
+            val launchesDeferred = async { fetchLaunches() }
+            val companyDeferred = async { fetchCompanyInfo() }
+            val historyDeferred = async { fetchHistory() }
 
+            val launches = launchesDeferred.await()
+            val companyInfo = companyDeferred.await()
+            val history = historyDeferred.await()
 
-//            val launches=launchesDeferred.await()
-//            val companyInfo=companyInfoDeferred.await()
             _uiState.update {
                 it.copy(
-                    launches=launches,
+                    launches = launches.map { it.toModel() },
                     companyResponse = companyInfo,
-                    history = history,
+                    history = history.map { it.toUiModel() },
+
+                    rawLaunches = launches,
+                    rawCompany = companyInfo,
+                    rawHistory = history,
                     isLoading = false
                 )
             }
@@ -75,8 +84,11 @@ class ExploreViewModel(
 }
 data class ExploreUiState(
     val companyResponse: CompanyResponse? = null,
-    val history : List<HistoryResponseItem>? = emptyList(),
-    val launches : List<LaunchesResponse> = emptyList(),
-    val isLoading :  Boolean = false,
-    val error: String? = null
+    val history : List<History>? = emptyList(),
+    val launches: List<Launch> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null,
+    val rawCompany: CompanyResponse? = null,
+    val rawHistory: List<HistoryResponseItem> = emptyList(),
+    val rawLaunches: List<LaunchesResponse> = emptyList(),
 )
