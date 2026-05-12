@@ -17,7 +17,6 @@ import com.example.features.model.toModel
 import kotlinx.coroutines.launch
 
 class LaunchesFragment : Fragment() {
-
     private val args by navArgs<LaunchesFragmentArgs>()
     private var launches by mutableStateOf(emptyList<com.example.features.model.Launch>())
 

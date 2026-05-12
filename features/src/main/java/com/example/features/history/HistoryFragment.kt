@@ -5,48 +5,40 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.features.databinding.FragmentHistoryBinding
+import com.example.features.explore.HistoryCard
+import com.example.features.launches.LaunchesScreen
+import com.example.features.model.History
+import com.example.features.model.toUiModel
 import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment() {
-
-    private lateinit var binding: FragmentHistoryBinding
-
-    private val adapter by lazy {
-        HistoryAdapter()
-    }
-
     private val args by navArgs<HistoryFragmentArgs>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                MaterialTheme {
+                    LazyColumn {
+                        items(args.history.toList()) { historyItem ->
 
-        binding = FragmentHistoryBinding.inflate(inflater, container, false)
-
-        setUpRecyclerView()
-        setUpObserver()
-
-
-        return binding.root
-    }
-
-    private fun setUpRecyclerView() {
-
-        binding.HistoryRecycler.adapter = adapter
-        binding.HistoryRecycler.layoutManager = LinearLayoutManager(requireContext())
-    }
-
-    private fun setUpObserver() {
-        lifecycleScope.launch {
-
-            adapter.submitList(args.history.toList())
+                            HistoryCard(
+                                history = historyItem.toUiModel()
+                            )
+                        }
+                    }
+                }
+                }
+            }
         }
     }
-
-}

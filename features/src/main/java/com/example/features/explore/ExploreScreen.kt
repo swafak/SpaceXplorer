@@ -86,7 +86,6 @@ fun ExploreScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // ── History ──────────────────────────
                 SectionHeader(
                     title = "History",
                     showArrow = uiState.history != null,
@@ -98,9 +97,6 @@ fun ExploreScreen(
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
-
-        // ── Lottie loading animation ─────────────────
-        // same as your LottieAnimationView in XML
         if (uiState.isLoading) {
             val composition by rememberLottieComposition(
                 LottieCompositionSpec.RawRes(com.example.resources.R.raw.loader)
@@ -115,12 +111,10 @@ fun ExploreScreen(
         }
 
         uiState.error?.let {
-            // errors are handled in the Fragment via LaunchedEffect
         }
     }
 }
 
-// ── Section header row ───────────────────────────────
 @Composable
 fun SectionHeader(
     title: String,

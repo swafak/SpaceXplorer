@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class ShipsViewModel(private val repository: ShipsRepository) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(shipsUiState())
+    private val _uiState = MutableStateFlow(ShipsUiState())
 
     val uiState = _uiState.asStateFlow()
 
@@ -36,11 +36,10 @@ class ShipsViewModel(private val repository: ShipsRepository) : ViewModel() {
             }
 
         }
-
 }
 
 
-data class shipsUiState(
+data class ShipsUiState(
     val ships: List<ShipsResponseItem> = emptyList(),
     val isLoading: Boolean = true
 )

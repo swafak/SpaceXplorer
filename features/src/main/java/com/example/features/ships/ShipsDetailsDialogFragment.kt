@@ -5,6 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
@@ -30,19 +34,12 @@ class ShipsDetailsDialogFragment(
     private val ship: Ship
 ) :
     BottomDialogFragment(R.layout.fragment_ships_details_dialog) {
-
-    private lateinit var binding: FragmentShipsDetailsDialogBinding
     private val viewModel: ShipsFavoriteViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpData()
         viewModel.isFavShip(ship.id)
-        setUpObserver()
 
-        binding.favoriteIcon.setOnClickListener {
-            viewModel.toggleFavoriteShip(ship.toShipsResponse())
-        }
     }
 
     override fun onCreateView(
@@ -50,41 +47,20 @@ class ShipsDetailsDialogFragment(
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentShipsDetailsDialogBinding.inflate(inflater, container, false)
+            return ComposeView(requireContext()).apply {
+                setContent {
+                    MaterialTheme {
+                        val uiState by viewModel.uiState.collectAsState()
 
-        return binding.root
-
-    }
-
-    private fun setUpData() {
-        binding.apply {
-            "${getString(com.example.resources.R.string.status)} ${ship.active.toString()}".also { active.text = it }
-            "${getString(com.example.resources.R.string.Mass)} ${ship.massKg.toString()}".also { mass.text = it }
-            "${getString(com.example.resources.R.string.homePort)} ${ship.homePort.toString()}".also { homePort.text = it }
-            "${getString(com.example.resources.R.string.year)}${ship.yearBuilt.toString()}".also { year.text = it }
-            "${getString(com.example.resources.R.string.model)}${ship.model}".also { model.text = it }
-            Launches.text = ship.launches.toString()
-
-            Glide.with(Image.context)
-                .load(ship.image)
-                .placeholder(R.drawable.baseline_rocket_24)
-                .into(Image)
-
-        }
-    }
-
-    private fun setUpObserver(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest { response ->
-                    updateFavoriteIcon(response.isFavoriteState)
+                        ShipDetailContent(
+                            ship = ship,
+                            isFavorite = uiState.isFavoriteState,
+                            onFavoriteClick = {
+                                viewModel.toggleFavoriteShip(ship.toShipsResponse())
+                            }
+                        )
+                    }
                 }
             }
         }
     }
-    private fun updateFavoriteIcon(isFavorite: Boolean) {
-        val color = if (isFavorite) com.example.resources.R.color.blue else com.example.resources.R.color.white
-        binding.favoriteIcon.setColorFilter(ContextCompat.getColor(requireContext(), color))
-    }
-
-}

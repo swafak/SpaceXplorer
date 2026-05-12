@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.navigation.safeargs)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.parcelize)
+
 
 }
 apply {

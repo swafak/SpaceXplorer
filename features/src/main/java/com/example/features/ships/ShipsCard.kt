@@ -1,4 +1,4 @@
-package com.example.features.launches
+package com.example.features.ships
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,20 +18,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.features.model.Launch
-import androidx.compose.ui.res.painterResource
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.features.R
-
+import com.example.features.model.Ship
 
 @Composable
-fun LaunchCard(launch: Launch) {
+fun ShipsCard(ship: Ship, onClick: () -> Unit) {
     Card(
+        onClick = onClick,
         modifier = Modifier
             .wrapContentSize()
             .background(color = Color.Black)
@@ -40,16 +40,16 @@ fun LaunchCard(launch: Launch) {
     ) {
         Column(
             modifier = Modifier
-                 .background(color = Color.Black)
+                .background(color = Color.Black)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(launch.imageUrl)
+                    .data(ship.image)
                     .crossfade(true)
                     .build(),
-                contentDescription = "Mission patch for ${launch.name}",
+                contentDescription = "Mission patch for ${ship.name}",
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape),
@@ -57,21 +57,22 @@ fun LaunchCard(launch: Launch) {
                 placeholder = painterResource(R.drawable.baseline_rocket_24),
                 error = painterResource(R.drawable.baseline_rocket_24)
             )
+
             Spacer(
-                modifier = Modifier
-                    .size(8.dp)
+                modifier = Modifier.size(8.dp)
             )
+
             Text(
-               text = launch.name,
+                text = ship.name.orEmpty(),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
             Text(
-                text = launch.dateUtc,
+                text = ship.type.orEmpty(),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                        color = Color.White
+                color = Color.White
             )
         }
     }
