@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -19,24 +23,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FavoriteShipsFragment : Fragment() {
-
-    private lateinit var binding: FragmentShipsBinding
     private val viewModel: ShipsFavoriteViewModel by viewModel()
-    private val adapter by lazy { FavoriteShipsAdapter(
-            onClick = {response->
-                    val bottomDialogFragment = ShipsDetailsDialogFragment(response)
-                    bottomDialogFragment.show(parentFragmentManager,"dialogDetails")
-
-        }
-    ) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getFavShip()
-        setUpObserver()
-        setupData()
-        setUpSearchView()
 
     }
 
@@ -44,40 +36,21 @@ class FavoriteShipsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentShipsBinding.inflate(inflater, container, false)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                MaterialTheme {
+                    val uiState by viewModel.uiState.collectAsState()
 
-        return binding.root
-    }
+                    FavShipScreen(
+                        ship = uiState.favoriteShip,
+                        onClick = { response ->
+                            val bottomDialogFragment = ShipsDetailsDialogFragment(response)
+                            bottomDialogFragment.show(parentFragmentManager, "dialogDetails")
 
-    private fun setupData(){
-        binding.recycler.adapter = adapter
-        binding.recycler.layoutManager = GridLayoutManager(requireContext(), 2)
-
-    }
-    private fun setUpObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest {response->
-                    response.favoriteShip.let {ship->
-                        adapter.submitFullList(ship.toShipsEntity())
-                    }
+                        }
+                    )
                 }
             }
         }
-    }
-
-    private fun setUpSearchView() {
-        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { adapter.filter(it) }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let { adapter.filter(it) }
-                return true
-            }
-        })
     }
 }

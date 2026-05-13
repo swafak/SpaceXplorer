@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,97 +20,48 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.example.features.databinding.FragmentDragonsBinding
 import com.example.features.favorites.dragon.FavoriteDragonViewModel
+import com.example.features.model.Dragon
+import com.example.features.model.toEntity
+import com.example.features.model.toShipsResponse
+import com.example.features.ships.ShipDetailContent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DragonsFragment : Fragment() {
+class DragonsFragment() : Fragment(
 
-
+) {
     private val viewModel: DragonsViewModel by viewModel()
     private val favoritesViewModel: FavoriteDragonViewModel by viewModel()
-    private lateinit var binding: FragmentDragonsBinding
-
-
-    private val adapter by lazy {
-        DragonAdapter(
-            onFavoriteClick = { dragon ->
-                favoritesViewModel.isFavDragon(dragon.id)
-                favoritesViewModel.toggleFavorite(dragon)
-                Toast.makeText(requireContext(), "clicked", Toast.LENGTH_SHORT).show()
-                Log.d("check", favoritesViewModel.uiState.value.isFavoriteState.toString())
-            },
-            isFavorite =
-
-//            {dragon->
-//                favoritesViewModel.isFavDragon(dragon)
-//            }
-            {
-                favoritesViewModel.uiState.value.isFavoriteState
-            }
-
-        )
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecycler()
         viewModel.fetchDragon()
-        setUpObserver()
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDragonsBinding.inflate(inflater, container, false)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                MaterialTheme {
+                    val uiState by viewModel.uiState.collectAsState()
+                    val favUiState by favoritesViewModel.uiState.collectAsState()
 
-        return binding.root
-    }
-
-    private fun setupRecycler() {
-
-        binding.Recycler.adapter = adapter
-        binding.Recycler.layoutManager = LinearLayoutManager(requireContext())
-    }
-
-    private fun renderLoading(isLoading: Boolean) {
-        binding.apply {
-            TransitionManager.beginDelayedTransition(binding.root)
-            loading.isVisible = isLoading
-            Recycler.isGone = isLoading
-        }
-    }
-
-    private fun setUpObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                viewModel.uiState.collectLatest { state ->
-
-                    renderLoading(state.isLoading)
-                    state.dragonInfo.let {
-                        adapter.submitList(state.dragonInfo)
-                    }
-                }
-
-                favoritesViewModel.uiState.collectLatest { state ->
-
-//                adapter.notifyDataSetChanged()
-                    // When favorites change, update the affected items
-                    state.favoriteDragon.forEach { favorite ->
-                        val position = adapter.currentList.indexOfFirst { it.id == favorite.id }
-                        if (position >= 0) {
-                            adapter.notifyItemChanged(position)
+                    DragonScreen(
+                        dragon = uiState.dragon,
+                        isLoading = uiState.isLoading,
+                        onFavoriteClick = { dragon ->
+                            favoritesViewModel.isFavDragon(dragon.id)
+                            favoritesViewModel.toggleFavorite(dragon)
+                        },
+                        isFavorite = { id ->
+                            favoritesViewModel.uiState.value.isFavoriteState
                         }
-                    }
+                    )
                 }
-
             }
         }
-
     }
 }
-

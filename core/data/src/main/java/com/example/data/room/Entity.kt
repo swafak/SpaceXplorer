@@ -60,10 +60,7 @@ data class DragonEntity(
     val flickrImages: List<String>?,
     val name: String?,
     val type: String?,
-    val active: Boolean?,
     val crewCapacity: Long?,
-    val dryMassKg: Long?,
-    val wikipedia: String?,
     val description: String?,
     @PrimaryKey
     val id: String

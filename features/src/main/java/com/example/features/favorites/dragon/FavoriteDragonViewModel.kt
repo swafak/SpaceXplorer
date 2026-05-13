@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.room.DbRepository
 import com.example.data.room.DragonEntity
+import com.example.features.model.Dragon
+import com.example.features.model.toModel
 import com.example.network.model.data.DragonResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,17 +45,14 @@ class FavoriteDragonViewModel(private val repository: DbRepository) : ViewModel(
     fun issFavDragon(id: String) = repository.isFavoriteDragon(id)
 
 
-    private fun addToFav(item: DragonResponse) {
+    private fun addToFav(item: Dragon) {
         val entity = DragonEntity(
             id = item.id,
             name = item.name,
             type = item.type,
-            active = item.active,
             crewCapacity = item.crewCapacity,
             flickrImages = item.flickrImages,
             description = item.description,
-            wikipedia = item.wikipedia,
-            dryMassKg = item.dryMassKg,
             firstFlight = item.firstFlight
         )
         insertDragon(entity)
@@ -62,7 +61,7 @@ class FavoriteDragonViewModel(private val repository: DbRepository) : ViewModel(
         }
     }
 
-    private fun removeFromFavorite(item: DragonResponse) {
+    private fun removeFromFavorite(item: Dragon) {
         item.id.let {
             deleteDragon(it)
             _uiState.update {
@@ -76,14 +75,17 @@ class FavoriteDragonViewModel(private val repository: DbRepository) : ViewModel(
             repository.getFavoriteDragon().collectLatest { response ->
                 _uiState.update {
                     it.copy(
-                        favoriteDragon = response
+                        favoriteDragon = response,
+                        dragon = response.map {
+                            it.toModel()
+                        }
                     )
                 }
             }
         }
     }
 
-    fun toggleFavorite(item: DragonResponse) {
+    fun toggleFavorite(item: Dragon) {
         val isFav = _uiState.value.isFavoriteState
         if (isFav) {
             removeFromFavorite(item)
@@ -96,5 +98,6 @@ class FavoriteDragonViewModel(private val repository: DbRepository) : ViewModel(
 data class DragonUiState(
     val favoriteDragon: List<DragonEntity> = emptyList(),
     val isLoading: Boolean = false,
-    val isFavoriteState: Boolean = false
+    val isFavoriteState: Boolean = false,
+    val dragon: List<Dragon> = emptyList()
 )

@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,46 +21,26 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteDragonFragment : Fragment() {
 
-    private lateinit var binding: FragmentFavoriteDragonBinding
-    private val adapter by lazy {
-        FavoriteDragonAdapter(
-            onClick = {}
-        )
-    }
     private val viewModel : FavoriteDragonViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         viewModel.getFavDragon()
-        setUpData()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                MaterialTheme {
+                    val uiState by viewModel.uiState.collectAsState()
 
-        binding=  FragmentFavoriteDragonBinding.inflate(inflater, container, false)
-
-    return binding.root
-    }
-
-    private fun setUpData() {
-        binding.Recycler.adapter = adapter
-        binding.Recycler.layoutManager = LinearLayoutManager(requireContext())
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { response ->
-                    response.favoriteDragon.let { dragon->
-                        adapter.submitList(dragon)
-
-                    }
-
+                    FavDragonScreen(
+                        dragon = uiState.favoriteDragon
+                    )
                 }
             }
-
         }
     }
-        }
+}

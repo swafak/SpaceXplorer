@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -19,23 +23,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class FavoriteRocketFragment : Fragment() {
 
     private val viewModel: FavoriteRocketViewModel by viewModel()
-    private lateinit var binding: FragmentFavoriteRocketBinding
-    private val adapter by lazy {
-        FavoriteRocketAdapter(
-            onClick = { rocket ->
-                val bottomDialogFragment = RocketDetailDialogFragment(
-                    rocket
-                )
-                bottomDialogFragment.show(parentFragmentManager , "RocketDetailDialog")
-            }
-        )
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpRecycler()
         viewModel.getFavRocket()
-        observeViewModel()
 
     }
 
@@ -43,24 +33,24 @@ class FavoriteRocketFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFavoriteRocketBinding.inflate(inflater, container, false)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                MaterialTheme {
+                    val uiState by viewModel.uiState.collectAsState()
 
-        return binding.root
-    }
+                    FavRocketScreen(
+                        rocket = uiState.favoriteRocket,
 
-    private fun setUpRecycler() {
-        binding.Recycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.Recycler.adapter = adapter
-    }
+                        onClick = { rocket ->
+                            val bottomDialogFragment = RocketDetailDialogFragment(
+                                rocket
+                            )
+                            bottomDialogFragment.show(parentFragmentManager, "RocketDetailDialog")
+                        }
+                    )
 
-    private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest { response ->
-                    response.favoriteRocket.let { rocket ->
-                        adapter.submitFullList(rocket.toRocketEntity())
-                    }
                 }
+
             }
         }
     }

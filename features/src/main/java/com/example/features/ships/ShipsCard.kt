@@ -1,6 +1,7 @@
 package com.example.features.ships
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -29,13 +30,19 @@ import com.example.features.R
 import com.example.features.model.Ship
 
 @Composable
-fun ShipsCard(ship: Ship, onClick: () -> Unit) {
+fun ShipsCard(ship: Ship, onClick: (() -> Unit)? = null ) {
     Card(
-        onClick = onClick,
         modifier = Modifier
             .wrapContentSize()
             .background(color = Color.Black)
-            .padding(horizontal = 8.dp, vertical = 8.dp),
+            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable { onClick() }
+                } else {
+                    Modifier
+                }
+            ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
@@ -51,8 +58,7 @@ fun ShipsCard(ship: Ship, onClick: () -> Unit) {
                     .build(),
                 contentDescription = "Mission patch for ${ship.name}",
                 modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape),
+                    .size(60.dp),
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(R.drawable.baseline_rocket_24),
                 error = painterResource(R.drawable.baseline_rocket_24)
