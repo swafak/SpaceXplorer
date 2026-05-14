@@ -38,17 +38,17 @@ class CompanyFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                binding.apply {
-
-                    summary.text = args.CompanyResponse.summary
-                    website.text = args.CompanyResponse.links.website
-                    twitter.text = args.CompanyResponse.links.twitter
-                    flickr.text = args.CompanyResponse.links.flickr
-                    address.text = args.CompanyResponse.headquarters.address
-                    city.text = args.CompanyResponse.headquarters.city
-                    state.text = args.CompanyResponse.headquarters.state
-
-                }
+//             STARTED   binding.apply {
+//
+//                    summary.text = args.CompanyResponse.summary
+//                    website.text = args.CompanyResponse.links.website
+//                    twitter.text = args.CompanyResponse.links.twitter
+//                    flickr.text = args.CompanyResponse.links.flickr
+//                    address.text = args.CompanyResponse.headquarters.address
+//                    city.text = args.CompanyResponse.headquarters.city
+//                    state.text = args.CompanyResponse.headquarters.state
+//
+//                }
 
                 }
             }

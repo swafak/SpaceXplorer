@@ -65,10 +65,10 @@ fun ExploreScreen(
                         .background(Color.Black),
                     contentScale = ContentScale.Fit
                 )
-                uiState.companyResponse?.let { company ->
+                uiState.companyModel?.let { company ->
                     CompanyLinks(
-                        website = company.links.website,
-                        twitter = company.links.twitter
+                        website = company.website,
+                        twitter = company.twitter
                     )
                 }
 

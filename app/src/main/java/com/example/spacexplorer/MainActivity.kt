@@ -16,18 +16,23 @@ import androidx.navigation.compose.rememberNavController
 import com.example.common.Screen
 import com.example.common.bottomNavItems
 import com.example.common.mainScreens
+import com.example.features.company.CompanyScreen
 import com.example.features.dragons.DragonScreen
 import com.example.features.dragons.DragonsViewModel
 import com.example.features.explore.ExploreScreen
 import com.example.features.explore.ExploreViewModel
 import com.example.features.favorites.dragon.FavoriteDragonViewModel
+import com.example.features.history.HistoryScreen
 import com.example.features.launches.LaunchesScreen
+import com.example.features.model.CompanyModel
+import com.example.features.model.History
 import com.example.features.model.Launch
 import com.example.features.model.toShips
 import com.example.features.rockets.RocketViewModel
 import com.example.features.rockets.RocketsScreen
 import com.example.features.ships.ShipsViewModel
 import com.example.features.ships.shipScreen
+import com.example.network.model.data.CompanyResponse
 import com.example.spacexplorer.splash.SplashScreen
 import org.koin.androidx.compose.koinViewModel
 
@@ -128,14 +133,35 @@ fun SpaceXplorerApp() {
                         )
                         navController.navigate(Screen.Launches.route)
                     },
-                    onHistoryArrowClick = { navController.navigate(Screen.History.route)},
-                    onCompanyArrowClick = { navController.navigate(Screen.Company.route)},
+                    onHistoryArrowClick = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "history_data",
+                            value = uiState.history?.toTypedArray()
+                        )
+                        navController.navigate(Screen.History.route)},
+                    onCompanyArrowClick = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "company_data",
+                            value = uiState.companyModel
+                        )
+                        navController.navigate(Screen.Company.route)},
                     onLaunchClick = { }
                 )
+            }
+            composable(Screen.History.route) {
+                val history = navController.previousBackStackEntry
+                    ?.savedStateHandle
+                ?.get<Array<History>>("history_data")
+
+                HistoryScreen(history?.toList() ?: emptyList())
             }
 
             composable(Screen.Company.route) {
 
+                val company = navController.previousBackStackEntry?.savedStateHandle?.get<CompanyModel?>(
+                    "company_data"
+                )
+                CompanyScreen(company = company!!)
             }
             composable(Screen.Launches.route) {
                 val launches = navController.previousBackStackEntry

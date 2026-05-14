@@ -5,9 +5,6 @@ sealed class Screen(val route: String) {
     object Explore  : Screen("explore")
     object Rockets  : Screen("rockets")
     object Ships    : Screen("ships")
-//    object Launches : Screen("launches/{launches}") {
-//        fun createRoute() = "launches"
-//    }
     object Dragons  : Screen("dragons")
     object Favorites: Screen("favorites")
     object Launches  : Screen("launches")

@@ -2,6 +2,7 @@ package com.example.features.explore
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.model.CompanyModel
 import com.example.features.model.History
 import com.example.features.model.Launch
 import com.example.features.model.toModel
@@ -51,9 +52,8 @@ class ExploreViewModel(
                     launches = launches.map { it.toModel() },
                     companyResponse = companyInfo,
                     history = history.map { it.toUiModel() },
-
                     rawLaunches = launches,
-                    rawCompany = companyInfo,
+                    companyModel = companyInfo.toModel(),
                     rawHistory = history,
                     isLoading = false
                 )
@@ -88,7 +88,7 @@ data class ExploreUiState(
     val launches: List<Launch> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
-    val rawCompany: CompanyResponse? = null,
+    val companyModel: CompanyModel? = null,
     val rawHistory: List<HistoryResponseItem> = emptyList(),
     val rawLaunches: List<LaunchesResponse> = emptyList(),
 )
