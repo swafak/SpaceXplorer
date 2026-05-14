@@ -38,16 +38,16 @@ class FavoriteRocketFragment : Fragment() {
                 MaterialTheme {
                     val uiState by viewModel.uiState.collectAsState()
 
-                    FavRocketScreen(
-                        rocket = uiState.favoriteRocket,
-
-                        onClick = { rocket ->
-                            val bottomDialogFragment = RocketDetailDialogFragment(
-                                rocket
-                            )
-                            bottomDialogFragment.show(parentFragmentManager, "RocketDetailDialog")
-                        }
-                    )
+//                    FavRocketScreen(
+//                        rocket = uiState.favoriteRocket,
+//
+//                        onClick = { rocket ->
+//                            val bottomDialogFragment = RocketDetailDialogFragment(
+//                                rocket
+//                            )
+//                            bottomDialogFragment.show(parentFragmentManager, "RocketDetailDialog")
+//                        }
+//                    )
 
                 }
 

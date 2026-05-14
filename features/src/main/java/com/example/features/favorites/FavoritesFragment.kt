@@ -14,8 +14,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class FavoritesFragment : Fragment() {
     private lateinit var binding: FragmentFavoritesBinding
-//    private val viewModel: FavoritesViewModel by viewModels()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

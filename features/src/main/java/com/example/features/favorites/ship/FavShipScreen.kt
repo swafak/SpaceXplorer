@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.data.room.ShipsEntity
 import com.example.features.model.Ship
 import com.example.features.model.toModel
+import com.example.features.ships.ShipBottomSheet
 import com.example.features.ships.ShipsCard
 
 
@@ -31,8 +32,9 @@ import com.example.features.ships.ShipsCard
 @Composable
 fun FavShipScreen(
     ship : List<ShipsEntity>,
-    onClick: (Ship) -> Unit,
 ) {
+    var selectedShip by remember { mutableStateOf<Ship?>(null) }
+    var showSheet by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
 
     val filtered = remember(searchQuery, ship) {
@@ -44,7 +46,7 @@ fun FavShipScreen(
 
     Box(
         modifier = Modifier.fillMaxSize()
-    ){
+    ) {
         Column {
 
             OutlinedTextField(
@@ -71,10 +73,24 @@ fun FavShipScreen(
                 items(filtered) { ship ->
                     ShipsCard(
                         ship = ship.toModel(),
-                        onClick = { onClick(ship.toModel()) })
+                        onClick = {
+                            selectedShip = ship.toModel()
+                            showSheet = true
+                        }
+                    )
                 }
             }
         }
+    }
 
+
+    if (showSheet && selectedShip != null) {
+        ShipBottomSheet(
+            ship = selectedShip!!,
+            onDismiss = {
+                showSheet = false
+                selectedShip = null
+            }
+        )
     }
 }

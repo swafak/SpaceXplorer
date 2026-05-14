@@ -21,7 +21,10 @@ import com.example.features.dragons.DragonScreen
 import com.example.features.dragons.DragonsViewModel
 import com.example.features.explore.ExploreScreen
 import com.example.features.explore.ExploreViewModel
+import com.example.features.favorites.FavoriteScreen
 import com.example.features.favorites.dragon.FavoriteDragonViewModel
+import com.example.features.favorites.rocket.FavoriteRocketViewModel
+import com.example.features.favorites.ship.ShipsFavoriteViewModel
 import com.example.features.history.HistoryScreen
 import com.example.features.launches.LaunchesScreen
 import com.example.features.model.CompanyModel
@@ -32,10 +35,8 @@ import com.example.features.rockets.RocketViewModel
 import com.example.features.rockets.RocketsScreen
 import com.example.features.ships.ShipsViewModel
 import com.example.features.ships.shipScreen
-import com.example.network.model.data.CompanyResponse
 import com.example.spacexplorer.splash.SplashScreen
 import org.koin.androidx.compose.koinViewModel
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,6 +214,26 @@ fun SpaceXplorerApp() {
 
             }
             composable(Screen.Favorites.route) {
+
+                val rocketviewModel : FavoriteRocketViewModel = koinViewModel()
+                val shipviewModel : ShipsFavoriteViewModel = koinViewModel()
+                val dragonviewModel : FavoriteDragonViewModel = koinViewModel()
+
+                val rocUistate by rocketviewModel.uiState.collectAsState()
+                val dragonUistate by dragonviewModel.uiState.collectAsState()
+                val shipUistate by shipviewModel.uiState.collectAsState()
+
+                LaunchedEffect(Unit) { rocketviewModel.getFavRocket() }
+
+                LaunchedEffect(Unit) { dragonviewModel.getFavDragon()}
+
+                LaunchedEffect(Unit) { shipviewModel.getFavShip()}
+
+                FavoriteScreen(
+                    ships = shipUistate.favoriteShip,
+                    dragons = dragonUistate.favoriteDragon,
+                    rockets = rocUistate.favoriteRocket,
+                )
             }
         }
     }

@@ -41,14 +41,14 @@ class FavoriteShipsFragment : Fragment() {
                 MaterialTheme {
                     val uiState by viewModel.uiState.collectAsState()
 
-                    FavShipScreen(
-                        ship = uiState.favoriteShip,
-                        onClick = { response ->
-                            val bottomDialogFragment = ShipsDetailsDialogFragment(response)
-                            bottomDialogFragment.show(parentFragmentManager, "dialogDetails")
-
-                        }
-                    )
+//                    FavShipScreen(
+//                        ship = uiState.favoriteShip,
+//                        onClick = { response ->
+//                            val bottomDialogFragment = ShipsDetailsDialogFragment(response)
+//                            bottomDialogFragment.show(parentFragmentManager, "dialogDetails")
+//
+//                        }
+//                    )
                 }
             }
         }

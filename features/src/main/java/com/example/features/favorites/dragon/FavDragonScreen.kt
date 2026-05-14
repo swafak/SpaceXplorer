@@ -17,7 +17,6 @@ import com.example.data.room.DragonEntity
 fun FavDragonScreen(
     dragon: List<DragonEntity>
 ){
-
     Box (
         modifier = Modifier.fillMaxSize()
     ){
@@ -26,7 +25,6 @@ fun FavDragonScreen(
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-
             LazyColumn(
                 modifier = Modifier.fillMaxWidth())
             {
@@ -38,5 +36,4 @@ fun FavDragonScreen(
             }
         }
     }
-
 }
