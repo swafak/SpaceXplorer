@@ -34,18 +34,4 @@ class SplashFragment : Fragment() {
 
         return binding.root
     }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).apply {
-            hideBottomNavAndToolBar()
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (activity as MainActivity).apply {
-            showBottomNavAndToolBar()
-        }
-    }
 }

@@ -55,17 +55,17 @@ class RocketAdapter(
                 Name.text = item.name
                 Glide.with(Image1.context)
                     .load(item.flickrImages?.first())
-                    .placeholder(R.drawable.baseline_rocket_24)
+                    .placeholder(com.example.resources.R.drawable.baseline_rocket_24)
                     .into(Image1)
 
                 Glide.with(Image2.context)
                     .load(item.flickrImages?.last())
-                    .placeholder(R.drawable.baseline_rocket_24)
+                    .placeholder(com.example.resources.R.drawable.baseline_rocket_24)
                     .into(Image2)
 
                 Glide.with(Image3.context)
                     .load(item.flickrImages?.get(1))
-                    .placeholder(R.drawable.baseline_rocket_24)
+                    .placeholder(com.example.resources.R.drawable.baseline_rocket_24)
                     .into(Image3)
             }
 

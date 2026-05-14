@@ -32,7 +32,7 @@ class LaunchesDetailDialogFragment(private val response: LaunchesResponse) : Bot
             website.text = response.links?.wikipedia
             Glide.with(Image.context)
                 .load(response.links?.patch?.small)
-                .placeholder(R.drawable.baseline_rocket_24)
+                .placeholder(com.example.resources.R.drawable.baseline_arrow_back_24)
                 .into(Image)
         }
     }

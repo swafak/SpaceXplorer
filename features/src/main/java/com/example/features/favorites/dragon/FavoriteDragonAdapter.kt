@@ -36,7 +36,7 @@ class FavoriteDragonAdapter(
 
                 Glide.with(ImageLogo.context)
                     .load(item.flickrImages?.firstOrNull())
-                    .placeholder(R.drawable.baseline_rocket_24)
+                    .placeholder(com.example.resources.R.drawable.baseline_rocket_24)
                     .into(ImageLogo)
 
                 ImageLogo.setOnClickListener { onClick(item) }

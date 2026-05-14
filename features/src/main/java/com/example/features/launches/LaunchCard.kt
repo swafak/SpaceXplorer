@@ -54,8 +54,8 @@ fun LaunchCard(launch: Launch) {
                     .size(60.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(R.drawable.baseline_rocket_24),
-                error = painterResource(R.drawable.baseline_rocket_24)
+                placeholder = painterResource(com.example.resources.R.drawable.baseline_rocket_24),
+                error = painterResource(com.example.resources.R.drawable.baseline_rocket_24)
             )
             Spacer(
                 modifier = Modifier

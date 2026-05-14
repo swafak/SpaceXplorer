@@ -53,7 +53,7 @@ class LaunchesAdapter(
 //                if (!imageUrl.isNullOrEmpty()) {
                 Glide.with(ImageLogo.context)
                     .load(item.links?.patch?.small)
-                    .placeholder(R.drawable.baseline_rocket_24)
+                    .placeholder(com.example.resources.R.drawable.baseline_rocket_24)
                     .into(ImageLogo)
                 ImageLogo.setOnClickListener {
                     onClick(item)

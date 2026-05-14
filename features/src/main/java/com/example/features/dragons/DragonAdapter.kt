@@ -51,7 +51,7 @@ class DragonAdapter(
 
                 Glide.with(ImageLogo.context)
                     .load(item.flickrImages?.first())
-                    .placeholder(R.drawable.baseline_rocket_24)
+                    .placeholder(com.example.resources.R.drawable.baseline_rocket_24)
                     .into(ImageLogo)
 
                 updateFavoriteIcon(isFavorite(item.id))

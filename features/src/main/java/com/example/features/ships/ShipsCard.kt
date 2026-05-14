@@ -60,8 +60,9 @@ fun ShipsCard(ship: Ship, onClick: (() -> Unit)? = null ) {
                 modifier = Modifier
                     .size(60.dp),
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(R.drawable.baseline_rocket_24),
-                error = painterResource(R.drawable.baseline_rocket_24)
+                placeholder = painterResource(
+                    com.example.resources.R.drawable.baseline_rocket_24),
+                error = painterResource(com.example.resources.R.drawable.baseline_rocket_24)
             )
 
             Spacer(

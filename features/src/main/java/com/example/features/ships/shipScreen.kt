@@ -28,11 +28,12 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.features.model.Ship
 
 @Composable
-fun shipScreen (
-    onClick: (Ship) -> Unit,
+fun shipScreen(
     isLoading: Boolean,
     ship: List<Ship>
-){
+) {
+    var selectedShip by remember { mutableStateOf<Ship?>(null) }
+    var showSheet by remember { mutableStateOf(false) }
 
     var searchQuery by remember { mutableStateOf("") }
 
@@ -42,9 +43,9 @@ fun shipScreen (
             it.name.orEmpty().contains(searchQuery, ignoreCase = true)
         }
     }
-    Box (
+    Box(
         modifier = Modifier.fillMaxSize()
-    ){
+    ) {
         if (isLoading) {
             val composition by rememberLottieComposition(
                 LottieCompositionSpec.RawRes(com.example.resources.R.raw.loader)
@@ -81,11 +82,25 @@ fun shipScreen (
                     items(filtered) { it ->
                         ShipsCard(
                             ship = it,
-                            onClick = { onClick(it) })
+                            onClick = {
+                                selectedShip = it
+                                showSheet = true
+                            }
+                        )
                     }
                 }
 
             }
+        }
+
+    }
+    if (showSheet && selectedShip != null) {
+        ShipBottomSheet(
+            ship = selectedShip!!,
+            onDismiss = {
+                showSheet = false
+                selectedShip = null
             }
+        )
     }
 }

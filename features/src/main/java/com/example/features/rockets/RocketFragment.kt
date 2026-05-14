@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class RocketFragment : Fragment() {
-
     private val viewModel: RocketViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,11 +42,7 @@ class RocketFragment : Fragment() {
 
                     RocketsScreen(
                         rockets = uiState.rockets,
-                        isLoading = uiState.isLoading,
-                        onRocketClick = { rocket ->
-                            RocketDetailDialogFragment(rocket)
-                                .show(parentFragmentManager, "RocketDetailDialog")
-                        }
+                        isLoading = uiState.isLoading
                     )
                 }
             }

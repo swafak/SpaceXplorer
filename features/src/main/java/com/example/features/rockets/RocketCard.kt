@@ -71,11 +71,11 @@ fun RocketCard(rocket: Rocket, onClick: () -> Unit) {
                             .build(),
                         contentDescription = rocket.name,
                         modifier = Modifier
-                            .weight(1f)     // each image takes equal width
+                            .weight(1f)
                             .fillMaxHeight()
                             .padding(4.dp),
                         contentScale = ContentScale.Crop,
-                        error = painterResource(R.drawable.baseline_rocket_24)
+                        error = painterResource(com.example.resources.R.drawable.baseline_rocket_24)
                     )
                 }
             }

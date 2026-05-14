@@ -68,32 +68,29 @@ dependencies {
     implementation(libs.navigation.ui.ktx)
     implementation(libs.androidx.navigation.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.navigation.ui.ktx)
+    implementation(libs.androidx.compose.foundation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(project(path = ":core:resources"))
     implementation(project(path = ":features"))
     implementation(project(path = ":core:network"))
+    implementation(project(path = ":core:common"))
     implementation(project(path = ":core:data"))
     val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
     implementation(composeBom)
 
-    // Core Compose UI
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
 
-    // Material Design 3 components (buttons, cards, etc.)
     implementation("androidx.compose.material3:material3")
-
-    // Lets Activities work with Compose
     implementation("androidx.activity:activity-compose:1.9.0")
-    // Debug tools (live preview in Android Studio)
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("io.coil-kt.coil3:coil-compose:3.1.0")
-    // Needed for loading images from network URLs with Coil 3
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.1.0")
     implementation(libs.androidx.compose.runtime)
     implementation("com.airbnb.android:lottie-compose:6.0.0")
-
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("io.insert-koin:koin-androidx-compose:4.0.0")
 
 }

@@ -1,4 +1,4 @@
-package com.example.features.ships
+package com.example.features.rockets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,13 +21,12 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.example.features.model.Ship
-import com.example.features.R
+import com.example.features.model.Rocket
 
 
 @Composable
-fun ShipDetailContent(
-    ship: Ship,
+fun RocketDetails(
+    rocket: Rocket,
     isFavorite: Boolean,
     onFavoriteClick: () -> Unit
 ) {
@@ -45,10 +44,10 @@ fun ShipDetailContent(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(ship.image)
+                    .data(rocket.flickrImages?.firstOrNull())
                     .crossfade(true)
                     .build(),
-                contentDescription = "Ship image",
+                contentDescription = "Rocket image",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit,
                 error = painterResource(com.example.resources.R.drawable.baseline_rocket_24),
@@ -78,7 +77,7 @@ fun ShipDetailContent(
                 .padding(16.dp)
         ) {
             Text(
-                text = ship.name.orEmpty(),
+                text = rocket.name.orEmpty(),
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -86,12 +85,11 @@ fun ShipDetailContent(
                     .padding(bottom = 16.dp)
             )
 
-            DetailRow(label = "Launches", value = ship.launches?.joinToString() ?: "—")
-            DetailRow(label = "Model", value = ship.model.orEmpty())
-            DetailRow(label = "Mass (kg)", value = ship.massKg?.toString() ?: "—")
-            DetailRow(label = "Year Built", value = ship.yearBuilt?.toString() ?: "—")
-            DetailRow(label = "Home Port", value = ship.homePort.orEmpty())
-            DetailRow(label = "Status", value = ship.active?.let {
+            DetailRow(label = "Height", value = rocket.height.toString() ?: "—")
+            DetailRow(label = "Mass", value = rocket.mass.toString())
+            DetailRow(label = "First flight", value = rocket.firstFlight ?: "—")
+            DetailRow(label = "Success Rate Pact", value = rocket.successRatePct?.toString() ?: "—")
+            DetailRow(label = "Status", value = rocket.active?.let {
                 if (it) "Active" else "Inactive"
             } ?: "—")
         }

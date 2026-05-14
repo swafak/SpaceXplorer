@@ -23,30 +23,22 @@ class RocketDetailDialogFragment(
 ) : BottomDialogFragment(
     R.layout.fragment_rocket_detail_dialog
 ) {
-
     private lateinit var binding: FragmentRocketDetailDialogBinding
     private val viewModel: FavoriteRocketViewModel by viewModel()
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpdata()
         setUpObserver()
-
         viewModel.isFavRocket(rocket.id)
-
         binding.favoriteIcon.setOnClickListener {
             viewModel.toggleFavoriteRocket(rocket.toRocketResponse())
-
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRocketDetailDialogBinding.inflate(inflater, container, false)
-
         return binding.root
     }
      private fun setUpdata() {
@@ -61,7 +53,7 @@ class RocketDetailDialogFragment(
                 Glide.with(Image)
                     .load(rocket.flickrImages?.first())
                     .fitCenter()
-                    .placeholder(R.drawable.baseline_rocket_24)
+                    .placeholder(com.example.resources.R.drawable.baseline_rocket_24)
                     .into(Image)
 
 

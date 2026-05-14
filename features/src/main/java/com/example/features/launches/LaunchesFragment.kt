@@ -36,24 +36,25 @@ class LaunchesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpData()
-    }
-
-    private fun setUpData() {
-        lifecycleScope.launch {
-            launches = args.LaunchesResponse.map { it.toModel() }
-        }
-    }
-    private fun filterLaunches(query: String) {
-        launches = if (query.isEmpty()) {
-            launches
-        } else {
-            launches.filter {
-                it.name.contains(query, ignoreCase = true)
-            }
-        }
+//        setUpData()
     }
 }
+
+//    private fun setUpData() {
+//        lifecycleScope.launch {
+//            launches = args.LaunchesResponse.map { it.toModel() }
+//        }
+//    }
+//    private fun filterLaunches(query: String) {
+//        launches = if (query.isEmpty()) {
+//            launches
+//        } else {
+//            launches.filter {
+//                it.name.contains(query, ignoreCase = true)
+//            }
+//        }
+//    }
+//}
 //    private fun setUpSearchView() {
 //        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 //            override fun onQueryTextSubmit(query: String?): Boolean {

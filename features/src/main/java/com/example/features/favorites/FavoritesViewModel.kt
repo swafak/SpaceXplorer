@@ -47,6 +47,7 @@ class FavoritesViewModel(private val repository: DbRepository) : ViewModel() {
     }
 
 
+
     fun getFavoriteShip() {
         viewModelScope.launch {
             repository.getFavoriteShip().collectLatest { response ->

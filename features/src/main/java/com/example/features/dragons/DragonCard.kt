@@ -67,8 +67,8 @@ fun DragonCard(
                     .size(150.dp)
                     .align(Alignment.Center),
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(R.drawable.baseline_rocket_24),
-                error = painterResource(R.drawable.baseline_rocket_24)
+                placeholder = painterResource(com.example.resources.R.drawable.baseline_rocket_24),
+                error = painterResource(com.example.resources.R.drawable.baseline_rocket_24)
             )
             IconButton(
                 onClick = onFavoriteClick,

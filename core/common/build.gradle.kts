@@ -45,6 +45,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(project(path = ":core:resources"))
+
     val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
     implementation(composeBom)
 

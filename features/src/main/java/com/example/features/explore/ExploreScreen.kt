@@ -196,8 +196,9 @@ fun LaunchPreviewCard(launch: Launch, onClick: () -> Unit) {
                     .size(100.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(R.drawable.baseline_rocket_24),
-                error = painterResource(R.drawable.baseline_rocket_24),
+                placeholder = painterResource(com.example.resources.R.drawable.baseline_rocket_24),
+                error = painterResource(
+                    com.example.resources.R.drawable.baseline_rocket_24),
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(

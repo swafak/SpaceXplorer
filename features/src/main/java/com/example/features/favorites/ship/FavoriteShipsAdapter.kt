@@ -57,7 +57,7 @@ class FavoriteShipsAdapter (
 //                if (!imageUrl.isNullOrEmpty()) {
                 Glide.with(ImageLogo.context)
                     .load(item.image)
-                    .placeholder(R.drawable.baseline_rocket_24)
+                    .placeholder(com.example.resources.R.drawable.baseline_rocket_24)
                     .into(ImageLogo)
 
                 ImageLogo.setOnClickListener {

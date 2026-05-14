@@ -1,68 +1,193 @@
 package com.example.spacexplorer
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.example.spacexplorer.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.common.Screen
+import com.example.common.bottomNavItems
+import com.example.common.mainScreens
+import com.example.features.dragons.DragonScreen
+import com.example.features.dragons.DragonsViewModel
+import com.example.features.explore.ExploreScreen
+import com.example.features.explore.ExploreViewModel
+import com.example.features.favorites.dragon.FavoriteDragonViewModel
+import com.example.features.launches.LaunchesScreen
+import com.example.features.model.Launch
+import com.example.features.model.toShips
+import com.example.features.rockets.RocketViewModel
+import com.example.features.rockets.RocketsScreen
+import com.example.features.ships.ShipsViewModel
+import com.example.features.ships.shipScreen
+import com.example.spacexplorer.splash.SplashScreen
+import org.koin.androidx.compose.koinViewModel
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContent {
+            MaterialTheme {
+                SpaceXplorerApp()
+            }
+        }
+    }
+}
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SpaceXplorerApp() {
+    val navController = rememberNavController()
+    val currentRoute = navController
+        .currentBackStackEntryAsState()
+        .value?.destination?.route
 
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
-        binding.apply {
-            val navHostFragment =
-                supportFragmentManager.findFragmentById(binding.fragmentContainer.id) as NavHostFragment
-            val navController = navHostFragment.navController
+    val showBars = currentRoute in mainScreens
 
-            navView.setupWithNavController(navController)
-            val appBarConfiguration = AppBarConfiguration(
-                setOf(
-                    com.example.features.R.id.navigation_rocket,
-                    com.example.features.R.id.navigation_explore,
-                    com.example.features.R.id.navigation_dragons,
-                    com.example.features.R.id.navigation_favorites,
-                    com.example.features.R.id.navigation_ships,
+    Scaffold(
+        topBar = {
+            if (showBars) {
+                val title = bottomNavItems
+                    .find { it.route == currentRoute }?.label
+                    ?: "SpaceXplorer"
+                TopAppBar(
+                    title = { Text(title, color = Color.White) },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Black
+                    )
                 )
-            )
-            setupActionBarWithNavController(navController, appBarConfiguration)
-
-            when (navController.currentDestination?.id) {
-                com.example.features.R.id.navigation_company -> {
-                    supportActionBar?.apply {
-                        navView.isGone()
+            }
+        },
+        bottomBar = {
+            if (showBars) {
+                NavigationBar(containerColor = Color.Black) {
+                    bottomNavItems.forEach { item ->
+                        NavigationBarItem(
+                            selected = currentRoute == item.route,
+                            onClick = {
+                                navController.navigate(item.route) {
+                                    val startRoute = navController.graph.startDestinationRoute ?: Screen.Explore.route
+                                    popUpTo(startRoute) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = item.iconRes),                                    contentDescription = item.label,
+                                    tint = Color.White
+                                )
+                            },
+                            label = { Text(item.label, color = Color.White) },
+                            colors = NavigationBarItemDefaults.colors(
+                                indicatorColor = Color.White.copy(alpha = 0.2f)
+                            )
+                        )
                     }
                 }
             }
         }
-    }
+    ) { paddingValues ->
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Splash.route,
+            modifier = Modifier.padding(paddingValues)
+        ) {
+            composable(Screen.Splash.route) {
+                SplashScreen(
+                    onSplashFinished = {
+                        navController.navigate(Screen.Explore.route) {
+                            popUpTo(Screen.Splash.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                )
+            }
+            composable(Screen.Explore.route) {
+                val viewModel: ExploreViewModel = koinViewModel()
+                val uiState by viewModel.uiState.collectAsState()
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(binding.fragmentContainer.id) as NavHostFragment
-        val navController = navHostFragment.navController
-        return navController.navigateUp() || super.onSupportNavigateUp()
-    }
+                LaunchedEffect(Unit) { viewModel.getData() }
+                ExploreScreen(
+                    uiState = uiState,
+                    onLaunchesArrowClick = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "launches_data",
+                            value = uiState.launches.toTypedArray()
+                        )
+                        navController.navigate(Screen.Launches.route)
+                    },
+                    onHistoryArrowClick = { navController.navigate(Screen.History.route)},
+                    onCompanyArrowClick = { navController.navigate(Screen.Company.route)},
+                    onLaunchClick = { }
+                )
+            }
 
-    fun hideBottomNavAndToolBar() {
-        binding.apply {
-            navView.isGone()
-            toolbar.isGone()
-        }
-    }
+            composable(Screen.Company.route) {
 
-    fun showBottomNavAndToolBar() {
-        binding.apply {
-            navView.isVisible()
-            toolbar.isVisible()
+            }
+            composable(Screen.Launches.route) {
+                val launches = navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.get<Array<Launch>>("launches_data")
+                LaunchesScreen(launches?.toList() ?: emptyList())
+            }
+
+            composable(Screen.Rockets.route) {
+                val viewModel: RocketViewModel = koinViewModel()
+                val uiState by viewModel.uiState.collectAsState()
+
+                LaunchedEffect(Unit) { viewModel.fetchRockets() }
+
+                RocketsScreen(
+                    rockets = uiState.rockets,
+                    isLoading = uiState.isLoading,
+                )
+            }
+
+            composable(Screen.Ships.route) {
+                val viewModel: ShipsViewModel = koinViewModel()
+                val uiState by viewModel.uiState.collectAsState()
+
+                LaunchedEffect(Unit) { viewModel.fetchShips() }
+
+                shipScreen(
+                    ship = uiState.ships.toShips(),
+                    isLoading = uiState.isLoading,
+                )
+            }
+            composable(Screen.Dragons.route) {
+                val viewModel: DragonsViewModel = koinViewModel()
+                val favoritesViewModel : FavoriteDragonViewModel = koinViewModel ()
+                val uiState by viewModel.uiState.collectAsState()
+            LaunchedEffect(Unit) {viewModel.fetchDragon() }
+
+                DragonScreen(
+                    dragon = uiState.dragon,
+                    isLoading = uiState.isLoading,
+                    onFavoriteClick = { dragon ->
+                        favoritesViewModel.isFavDragon(dragon.id)
+                        favoritesViewModel.toggleFavorite(dragon)
+                    },
+                    isFavorite = { id ->
+                        favoritesViewModel.uiState.value.isFavoriteState
+                    }
+                )
+
+            }
+            composable(Screen.Favorites.route) {
+            }
         }
     }
 }

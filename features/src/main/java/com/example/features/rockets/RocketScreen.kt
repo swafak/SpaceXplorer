@@ -26,13 +26,13 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.features.model.Rocket
-
 @Composable
 fun RocketsScreen(
     rockets: List<Rocket>,
     isLoading: Boolean,
-    onRocketClick: (Rocket) -> Unit
 ) {
+    var selectedRocket by remember { mutableStateOf<Rocket?>(null) }
+    var showSheet by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
 
     val filtered = remember(searchQuery, rockets) {
@@ -79,11 +79,24 @@ fun RocketsScreen(
                     items(filtered) { it ->
                         RocketCard(
                             rocket = it,
-                            onClick = { onRocketClick(it) })
+                            onClick = {
+                                selectedRocket = it
+                                showSheet = true
+
+                            })
                     }
                 }
 
             }
         }
+    }
+    if (showSheet && selectedRocket != null) {
+        RocketBottomSheet(
+            rocket = selectedRocket!!,
+            onDismiss = {
+                showSheet = false
+                selectedRocket = null
+            }
+        )
     }
 }

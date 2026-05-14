@@ -42,10 +42,6 @@ class ShipsFragment : Fragment() {
 
                     shipScreen(
                         ship = uiState.ships.toShips(),
-                        onClick = { response ->
-                            val bottomDialogFragment = ShipsDetailsDialogFragment(response)
-                            bottomDialogFragment.show(parentFragmentManager, "dialogDetails")
-                        },
                         isLoading = uiState.isLoading,
                     )
                 }
