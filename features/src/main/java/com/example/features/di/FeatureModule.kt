@@ -3,7 +3,6 @@ package com.example.features.di
 import com.example.data.room.DbRepository
 import com.example.features.dragons.DragonsViewModel
 import com.example.features.explore.ExploreViewModel
-import com.example.features.favorites.FavoritesFragment
 import com.example.features.favorites.FavoritesViewModel
 import com.example.features.favorites.dragon.FavoriteDragonViewModel
 import com.example.features.favorites.rocket.FavoriteRocketViewModel
