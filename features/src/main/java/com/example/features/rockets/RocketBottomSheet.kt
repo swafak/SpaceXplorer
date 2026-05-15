@@ -8,13 +8,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.features.favorites.rocket.FavoriteRocketViewModel
-import com.example.features.favorites.ship.ShipsFavoriteViewModel
 import com.example.features.model.Rocket
 import com.example.features.model.toRocketResponse
-import com.example.features.model.toShipsResponse
-import com.example.features.ships.ShipDetailContent
 import org.koin.androidx.compose.koinViewModel
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RocketBottomSheet(

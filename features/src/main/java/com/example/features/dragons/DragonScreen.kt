@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,16 +17,16 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.features.favorites.dragon.FavoriteDragonViewModel
 import com.example.features.model.Dragon
 import com.example.resources.R
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DragonScreen(
     dragon: List<Dragon>,
     isLoading: Boolean,
-    onFavoriteClick: (Dragon) -> Unit,
-    isFavorite: (String) -> Boolean
-
+    favoritesViewModel: FavoriteDragonViewModel = koinViewModel()
 ) {
 
     Box(
@@ -52,10 +53,18 @@ fun DragonScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     items(dragon) { dragon ->
+
+                        val isFavorite by favoritesViewModel
+                            .issFavDragon(dragon.id)
+                            .collectAsState(initial = false)
                         DragonCard(
                             dragon = dragon,
-                            onFavoriteClick = { onFavoriteClick(dragon) },
-                            isFavorite = isFavorite(dragon.id),
+                            isFavorite = isFavorite,
+                            onFavoriteClick = {
+                                favoritesViewModel.toggleFavorite(
+                                    dragon
+                                )
+                            }
                         )
 
                     }

@@ -199,19 +199,12 @@ fun SpaceXplorerApp() {
                 val favoritesViewModel : FavoriteDragonViewModel = koinViewModel ()
                 val uiState by viewModel.uiState.collectAsState()
             LaunchedEffect(Unit) {viewModel.fetchDragon() }
+                LaunchedEffect(Unit) {favoritesViewModel.getFavDragon() }
 
                 DragonScreen(
                     dragon = uiState.dragon,
                     isLoading = uiState.isLoading,
-                    onFavoriteClick = { dragon ->
-                        favoritesViewModel.isFavDragon(dragon.id)
-                        favoritesViewModel.toggleFavorite(dragon)
-                    },
-                    isFavorite = { id ->
-                        favoritesViewModel.uiState.value.isFavoriteState
-                    }
                 )
-
             }
             composable(Screen.Favorites.route) {
 

@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class DbRepository(private val Dao: Dao) {
@@ -18,10 +19,13 @@ class DbRepository(private val Dao: Dao) {
         Dao.deleteDragonById(id)
     }
 
-    fun isFavoriteDragon(id: String): Flow<Boolean> = flow {
-        emit( Dao.isFavoriteDragon(id) != null)
+//    fun isFavoriteDragon(id: String): Flow<Boolean> = flow {
+//        emit( Dao.isFavoriteDragon(id) != null)
+//    }
+fun isFavoriteDragon(id: String): Flow<Boolean> =
+    Dao.getAllDragon().map { dragons ->
+        dragons.any { it.id == id }
     }
-
     fun getFavoriteDragon(): Flow<List<DragonEntity>> {
         return Dao.getAllDragon()
     }
