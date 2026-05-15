@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -28,14 +29,15 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.features.R
 import com.example.features.model.Ship
+import org.jetbrains.annotations.NotNull
 
 @Composable
 fun ShipsCard(ship: Ship, onClick: (() -> Unit)? = null ) {
     Card(
         modifier = Modifier
             .wrapContentSize()
-            .background(color = Color.Black)
             .padding(horizontal = 8.dp, vertical = 8.dp)
+            .background(color = Color.Black)
             .then(
                 if (onClick != null) {
                     Modifier.clickable { onClick() }
@@ -43,11 +45,11 @@ fun ShipsCard(ship: Ship, onClick: (() -> Unit)? = null ) {
                     Modifier
                 }
             ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(Color.Black)
     ) {
         Column(
             modifier = Modifier
-                .background(color = Color.Black)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -58,7 +60,8 @@ fun ShipsCard(ship: Ship, onClick: (() -> Unit)? = null ) {
                     .build(),
                 contentDescription = "Mission patch for ${ship.name}",
                 modifier = Modifier
-                    .size(60.dp),
+                    .size(150.dp)
+                    .background(color = Color.White),
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(
                     com.example.resources.R.drawable.baseline_rocket_24),
@@ -82,5 +85,28 @@ fun ShipsCard(ship: Ship, onClick: (() -> Unit)? = null ) {
                 color = Color.White
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun cardPreview() {
+    MaterialTheme {
+        ShipsCard(
+            ship = Ship(
+                active = true,
+                homePort = "homeport",
+                id = "id",
+                image = "com.example.resources.R.drawable.baseline_rocket_24",
+                launches = null,
+                massKg = null,
+                model = null,
+                name = "test",
+                status = null,
+                yearBuilt = null,
+                type = null
+            ),
+            onClick = null
+        )
     }
 }
