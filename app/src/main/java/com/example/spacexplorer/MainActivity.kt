@@ -162,7 +162,11 @@ fun SpaceXplorerApp() {
                 val company = navController.previousBackStackEntry?.savedStateHandle?.get<CompanyModel?>(
                     "company_data"
                 )
-                CompanyScreen(company = company!!)
+                company?.let {
+                    CompanyScreen(company = it)
+                } ?: run {
+                    Text("Company data not available")
+                }
             }
             composable(Screen.Launches.route) {
                 val launches = navController.previousBackStackEntry
@@ -196,11 +200,8 @@ fun SpaceXplorerApp() {
             }
             composable(Screen.Dragons.route) {
                 val viewModel: DragonsViewModel = koinViewModel()
-                val favoritesViewModel : FavoriteDragonViewModel = koinViewModel ()
                 val uiState by viewModel.uiState.collectAsState()
             LaunchedEffect(Unit) {viewModel.fetchDragon() }
-                LaunchedEffect(Unit) {favoritesViewModel.getFavDragon() }
-
                 DragonScreen(
                     dragon = uiState.dragon,
                     isLoading = uiState.isLoading,
